@@ -12,7 +12,6 @@ Objetivos:
 */
 
 int main() {
-int a;
     menu0();
     
     return 0;

@@ -26,10 +26,11 @@ int menu1() {
     int opc1;
     int exitmenu1;
 
-    printf("\n Sus opciones son: \n 1. Ingresar nuevos productos \n 4. Salir al menu principal \n");
-    scanf("%d",&opc1);
+    
   
   while (exitmenu1 != 1) {
+    printf("\n Sus opciones son: \n 1. Ingresar nuevos productos\n 2. Actualizar cantidades de productos\n 3. Remover Productos \n 4. Salir al menu principal \n");
+    scanf("%d",&opc1);
     switch (opc1) {
         case 1: 
           limipiarbuffer();
@@ -59,28 +60,58 @@ int menu1() {
     return 0;
 }
 
+int menu2() {
+  limipiarbuffer();
+  int opc2;
+  int exitmenu2 =0; 
+
+  while (exitmenu2 != 1)
+  {
+    printf("\n Sus opciones son: \n 1.  \n 4.  \n");
+    scanf("%d",&opc2);
+
+    switch (opc2)
+    {
+    case 1:
+      /* code */
+      break;
+    
+    default:
+      break;
+    }
+  }
+  
+
+
+  return 0;
+}
+
 struct product_template get_info() {
     struct product_template input;
+      printf("\nIngrese ID del producto (maximo 10 caracteres, no se debe repetir) ");
+      gets(input.prodID);
+      limipiarbuffer(); 
+      
       printf("\nIngrese nombre: ");
       scanf("%s",input.nombre);
+      limipiarbuffer();
 
       printf("\nIngrese precio: ");
       scanf("%f",&input.price);
+      limipiarbuffer();
 
       printf("\nIngrese una breve descripcion del producto: ");
       scanf("%s",input.descripcion);
+      limipiarbuffer();
+      
+      printf("\nIngrese precio: ");
+      scanf("%d",&input.sub.cantidad_en_centra);
+      limipiarbuffer();
+
+      
+
 
     return input;
-}
-
-int tempmovement() {
-  
- return 0;
-}
-
-int tempcopying() {
-
-  return 0;
 }
 
 int nuevosproductos() {
@@ -99,6 +130,9 @@ int nuevosproductos() {
       templist[n] = get_info();
       n++;
     }
+     
+
+
 
        
 
@@ -130,7 +164,7 @@ while(centinela0 !=1 ) {
     case 2:
       printf(" \n usted ha seleccionado opcion 2 \n");
       limipiarbuffer();
-
+      menu2();
       cleanscreen();  
      break;
 
