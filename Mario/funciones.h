@@ -6,6 +6,8 @@
 #include<dos.h>
 #include<stdlib.h>
 
+char txtextention[] = ".txt";
+
 struct product_template globalinventory[100];
 int globalinvetoryposition = 100;
 
@@ -21,11 +23,128 @@ void cleanscreen() {
 
 
 // menu de nuevos productos 
+
+
+int removerfichero(FILE *a) {
+  char masterfile[15] = "masterfile.txt";
+  char removedfile[100];
+  int ismaster;
+
+  limipiarbuffer();
+
+  printf("Ingrese nombre del archivo que quiera borrar");
+  gets(removedfile);
+  limipiarbuffer();
+  
+  strcat(removedfile,txtextention);
+
+  ismaster = strcmp(masterfile,removedfile);
+  
+  if (ismaster == 0) {
+    printf("usted no puede borrar el master");
+  } else {
+     remove(removedfile);
+  }
+
+
+  return 0;
+}
+
+
+struct product_template get_info() {
+    struct product_template input;
+      printf("\nIngrese ID del producto (maximo 10 caracteres, no se debe repetir) ");
+      gets(input.prodID);
+      limipiarbuffer(); 
+      
+      printf("\nIngrese nombre: ");
+      scanf("%s",input.nombre);
+      limipiarbuffer();
+
+      printf("\nIngrese precio: ");
+      scanf("%f",&input.price);
+      limipiarbuffer();
+
+      printf("\nIngrese una breve descripcion del producto: ");
+      scanf("%s",input.descripcion);
+      limipiarbuffer();
+      
+      printf("\nIngrese cantidad central: ");
+      scanf("%d",&input.sub.cantidad_en_centra);
+      limipiarbuffer();
+
+      
+
+
+    return input;
+}
+
+int nuevosproductos(FILE *a) {
+    int cant=0;
+    int n =0;
+    //int *sizeofarray;
+    // struct product_template temp;
+    char nombre1[100];
+    char nombre2[100];
+    //char datextention[] = ".dat";
+
+    printf("Ingrese nombre del archivo\n");
+    gets(nombre1);
+    strcpy(nombre2,nombre1);
+    strcat(nombre2,txtextention);
+    a = fopen(nombre2, "w");
+    struct product_template *templist;
+    printf("Ingrese # prods \n");
+    scanf("%d",&cant);
+     limipiarbuffer();
+
+   templist = (struct product_template*) malloc(cant*sizeof(struct product_template) );
+
+   while (n < cant) { 
+      templist[n] = get_info();
+      n++;
+    }
+    
+    for (int i = 0; i < n; i++) {
+        fprintf(a, "Nombre: %s\n", templist[i].nombre);
+        fprintf(a, "Precio: %.2f\n", templist[i].price);
+        fprintf(a, "Descripcion: %s\n", templist[i].descripcion);
+        fprintf(a, "\n");
+    }
+
+    if (n > 0) {
+        printf("\nLos datos de los productos han sido guardados con éxito!\n");
+    } else {
+        perror("Error: ");
+        return(-1);
+    }
+    
+    
+    char txtextention2[] = "_2.txt";
+    strcat(nombre1,txtextention2);
+    FILE *fileopen2 = NULL;
+    fileopen2 = fopen(nombre1,"w");
+    int guardado=fwrite(templist, sizeof(struct product_template), n, fileopen2);
+    
+    if(guardado>0){
+            printf("\nLos datos del atleta han sido guardados con exito! \n");
+        }
+        else{
+            printf("\nERROR: intente nuevamente, si el error persiste contacte con el Administrador del Sistema... \n");
+        } 
+
+       limipiarbuffer();
+       free(templist);
+       fclose(a);
+     
+    return 0;
+}
+
 int menu1() {
     limipiarbuffer();
     int opc1;
     int exitmenu1;
-
+    FILE *filepointer = NULL;
     
   
   while (exitmenu1 != 1) {
@@ -35,7 +154,7 @@ int menu1() {
         case 1: 
           limipiarbuffer();
           cleanscreen();
-          nuevosproductos();
+          nuevosproductos(filepointer);
           exitmenu1 =1;
           break;
 
@@ -44,7 +163,7 @@ int menu1() {
           break;
 
         case 3:
-          // remover productos
+          removerfichero(filepointer);
           break;
         case 4:
           exitmenu1 = 1;
@@ -85,61 +204,6 @@ int menu2() {
 
   return 0;
 }
-
-struct product_template get_info() {
-    struct product_template input;
-      printf("\nIngrese ID del producto (maximo 10 caracteres, no se debe repetir) ");
-      gets(input.prodID);
-      limipiarbuffer(); 
-      
-      printf("\nIngrese nombre: ");
-      scanf("%s",input.nombre);
-      limipiarbuffer();
-
-      printf("\nIngrese precio: ");
-      scanf("%f",&input.price);
-      limipiarbuffer();
-
-      printf("\nIngrese una breve descripcion del producto: ");
-      scanf("%s",input.descripcion);
-      limipiarbuffer();
-      
-      printf("\nIngrese precio: ");
-      scanf("%d",&input.sub.cantidad_en_centra);
-      limipiarbuffer();
-
-      
-
-
-    return input;
-}
-
-int nuevosproductos() {
-    int cant=0;
-    int n =0;
-    //int *sizeofarray;
-    // struct product_template temp;
-    struct product_template *templist;
-    printf("Ingrese # prods \n");
-    scanf("%d",&cant);
-
-
-   templist = (struct product_template*) malloc(cant*sizeof(struct product_template) );
-
-   while (n < cant) { 
-      templist[n] = get_info();
-      n++;
-    }
-     
-
-
-
-       
-
-
-    return 0;
-}
-
 
 
 int menu0(){
