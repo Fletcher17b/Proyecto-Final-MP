@@ -8,9 +8,6 @@
 
 char txtextention[] = ".txt";
 
-struct product_template globalinventory[100];
-int globalinvetoryposition = 100;
-
 void limipiarbuffer() {
     fflush(stdin);
     fflush(stdout);
@@ -25,14 +22,18 @@ void cleanscreen() {
 // menu de nuevos productos 
 
 
-int removerfichero(FILE *a) {
+
+int removerfichero() {
   char masterfile[15] = "masterfile.txt";
   char removedfile[100];
   int ismaster;
+  int whileexit = 0;
 
+  while (whileexit != 1) {
+  int whileexit2 = 0;
   limipiarbuffer();
 
-  printf("Ingrese nombre del archivo que quiera borrar");
+  printf("Ingrese nombre del archivo que quiera borrar: ");
   gets(removedfile);
   limipiarbuffer();
   
@@ -41,16 +42,48 @@ int removerfichero(FILE *a) {
   ismaster = strcmp(masterfile,removedfile);
   
   if (ismaster == 0) {
-    printf("usted no puede borrar el master");
+    printf("usted no puede borrar el master\n");
+    cleanscreen();
   } else {
-     remove(removedfile);
+     int succesfulremove = remove(removedfile);
+     if (succesfulremove == 0) {
+      printf("Archivo borrado con exito\n");
+      whileexit =1;
+     } else {printf("Archivo no se ha podido borrar \n"); }
+     
+     cleanscreen();
   }
+
+   printf("Para volver al menu principal digite 1: ");
+  scanf("%d",&whileexit2);
+  if (whileexit2 == 1) {
+    whileexit =1;
+    printf("saliendo al menu \n");
+    cleanscreen();
+    } 
+}
+
 
 
   return 0;
 }
 
+int actualizar(FILE *a)
+{
+  char lineweneed[26] = "Cantidad en sucursal 3: ";
+  rewind(a);
+  while (!feof(a)) {
+    fgets(lineweneed,20,a);
+    puts(lineweneed);
+  }
+  
 
+
+
+
+
+  return 0;
+}
 struct product_template get_info() {
     struct product_template input;
       printf("\nIngrese ID del producto (maximo 10 caracteres, no se debe repetir) ");
@@ -69,11 +102,36 @@ struct product_template get_info() {
       scanf("%s",input.descripcion);
       limipiarbuffer();
       
-      printf("\nIngrese cantidad central: ");
+      printf("\nIngrese la cantidad central: ");
       scanf("%d",&input.sub.cantidad_en_centra);
       limipiarbuffer();
 
-      
+      int cantidades_conduerdan = 0;
+       
+      while (cantidades_conduerdan != 1 ) {
+        printf("\nIngrese la cantidad en sucursal 1: ");
+        scanf("%d",&input.sub.cantidad_en_sucursal_1);
+        limipiarbuffer();
+
+        printf("\nIngrese la cantidad sucursal 2: ");
+        scanf("%d",&input.sub.cantidad_en_sucursal_2);
+        limipiarbuffer();
+
+        printf("\nIngrese la cantidad sucursal 3: ");
+        scanf("%d",&input.sub.cantidad_en_sucursal_3);
+        limipiarbuffer();
+
+        printf("\nIngrese la cantidad sucursal 4: ");
+        scanf("%d",&input.sub.cantidad_en_sucursal_4);
+        limipiarbuffer();
+        
+        int suma = input.sub.cantidad_en_sucursal_1 + input.sub.cantidad_en_sucursal_2 + input.sub.cantidad_en_sucursal_3 + input.sub.cantidad_en_sucursal_4;
+        if (suma != input.sub.cantidad_en_centra) {
+          printf("\ncantidades repartidas no concuerdan con la central\n");
+        } else {
+          cantidades_conduerdan = 1;
+        }
+      }
 
 
     return input;
@@ -106,9 +164,14 @@ int nuevosproductos(FILE *a) {
     }
     
     for (int i = 0; i < n; i++) {
+        fprintf(a, "Nombre: %s\n", templist[i].prodID);
         fprintf(a, "Nombre: %s\n", templist[i].nombre);
         fprintf(a, "Precio: %.2f\n", templist[i].price);
         fprintf(a, "Descripcion: %s\n", templist[i].descripcion);
+        fprintf(a, "Cantidad en central: %d\n", templist[i].sub.cantidad_en_centra);
+        fprintf(a, "Cantidad en sucursal 1: %d\n", templist[i].sub.cantidad_en_sucursal_1);
+        fprintf(a, "Cantidad en sucursal 2: %d\n", templist[i].sub.cantidad_en_sucursal_2);
+        fprintf(a, "Cantidad en sucursal 3: %d\n", templist[i].sub.cantidad_en_sucursal_3);
         fprintf(a, "\n");
     }
 
@@ -120,7 +183,7 @@ int nuevosproductos(FILE *a) {
     }
     
     
-    char txtextention2[] = "_2.txt";
+/*    char txtextention2[] = "_2.txt";
     strcat(nombre1,txtextention2);
     FILE *fileopen2 = NULL;
     fileopen2 = fopen(nombre1,"w");
@@ -131,7 +194,7 @@ int nuevosproductos(FILE *a) {
         }
         else{
             printf("\nERROR: intente nuevamente, si el error persiste contacte con el Administrador del Sistema... \n");
-        } 
+        }  */
 
        limipiarbuffer();
        free(templist);
@@ -159,11 +222,11 @@ int menu1() {
           break;
 
         case 2:
-          // actualizar cantidades
+          actualizar(filepointer);
           break;
 
         case 3:
-          removerfichero(filepointer);
+          removerfichero();
           break;
         case 4:
           exitmenu1 = 1;

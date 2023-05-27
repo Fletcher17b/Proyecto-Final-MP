@@ -2,7 +2,10 @@
 
 struct cantdist {
     int cantidad_en_centra;
-    int cantidad_en_sucursales;
+    int cantidad_en_sucursal_1;
+    int cantidad_en_sucursal_2;
+    int cantidad_en_sucursal_3;
+    int cantidad_en_sucursal_4;
 
 };
 
@@ -12,6 +15,7 @@ struct product_template {
  float price;
  char descripcion[200];
  float gastos_varios; 
+
  struct cantdist sub;
  
 };

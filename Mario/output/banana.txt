@@ -1,0 +1,9 @@
+Nombre: 1
+Nombre: no
+Precio: 12.00
+Descripcion: 22f
+Cantidad en central: 21
+Cantidad en sucursal 1: 21
+Cantidad en sucursal 2: 0
+Cantidad en sucursal 3: 0
+
