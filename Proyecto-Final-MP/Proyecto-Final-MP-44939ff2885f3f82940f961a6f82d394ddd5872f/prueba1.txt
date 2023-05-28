@@ -1,0 +1,20 @@
+Nombre: producto1
+Precio: 1.00
+Descripcion: no
+
+Nombre: pruducto2
+Precio: 2.00
+Descripcion: no
+
+Nombre: producto4
+Precio: 4.00
+Descripcion: 4
+
+Nombre: producto3
+Precio: 3.00
+Descripcion: 3
+
+Nombre: producto
+Precio: 5.00
+Descripcion: no
+
