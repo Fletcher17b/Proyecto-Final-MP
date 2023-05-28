@@ -1,10 +1,9 @@
 #include<stdio.h>
 #include"estructura.h"
 #include<string.h>
-#include<dos.h>
 #include<stdlib.h>
 
-void limipiarbuffer() {
+void limpiarbuffer() {
     fflush(stdin);
     fflush(stdout);
 }
@@ -23,19 +22,19 @@ void newProduct(FILE* fileProduct, struct product_template product) {
         printf(" - DATOS DEL PRODUCTO -\n\n");
         
         printf("ID del producto: ");
-        scanf("%s", product.prodID);
+        scanf("%d", product.prodID);
         fflush(stdin);
         
         printf("Nombre: ");
-        fgets(product.nombre, sizeof(product.nombre), stdin);
+        scanf("%s", product.nombre, sizeof(product.nombre), stdin);
         fflush(stdin);
         
         printf("Precio: ");
-        scanf("%f", &product.price);
+        scanf("%d", &product.price);
         fflush(stdin);
         
         printf("Descripcion: ");
-        fgets(product.descripcion, sizeof(product.descripcion), stdin);
+        scanf("%s", product.descripcion, sizeof(product.descripcion), stdin);
         fflush(stdin);
         
         printf("Cantidad en central: ");
