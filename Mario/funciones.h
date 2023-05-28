@@ -28,7 +28,7 @@ int removerfichero() {
   char removedfile[100];
   int ismaster;
   int whileexit = 0;
-
+  
   while (whileexit != 1) {
   int whileexit2 = 0;
   limipiarbuffer();

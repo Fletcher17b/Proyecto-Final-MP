@@ -14,7 +14,6 @@ struct product_template {
  char nombre[50];
  float price;
  char descripcion[200];
- float gastos_varios; 
 
  struct cantdist sub;
  
