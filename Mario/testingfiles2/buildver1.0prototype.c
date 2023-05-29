@@ -132,7 +132,7 @@ int agregarprod(FILE *fileused_a) {
 }
 
 
-int modifyprods(FILE *fileused_b) {
+int modifyprods(FILE *fileused_b) { 
 
  limipiarbuffer(); 
  
@@ -214,6 +214,63 @@ int modifyprods(FILE *fileused_b) {
 
 
 int removeprod(FILE *fileused_c) {
+
+  limipiarbuffer();
+
+ char IDseeker[10];
+ bool found = false;
+ FILE *temporal;
+ struct product_template temp_c;
+
+ fileused_c = fopen("masterfile.txt","r");
+ temporal = fopen("temporal.txt","a+");
+ printf("\n\n");
+ gets(IDseeker);
+  
+  fread(&temp_c, sizeof(struct product_template),1, fileused_c);
+  while(!feof(fileused_c)) {
+
+     if(!strcmp(IDseeker, temp_c.prodID)) {
+    found = true;
+    limipiarbuffer(); 
+    int choice;
+      
+      printf("\nNombre: %s \n", temp_c.nombre);
+      printf("Precio: %.2f \n", temp_c.priceunit);
+      printf("Descripcion: %s \n", temp_c.descripcion); 
+      
+      printf("Eliminar? \n");
+      scanf("%d",&choice);
+
+      if (choice == 1) {
+        printf("bye file \n");
+
+      } else {
+        fwrite(&temp_c,sizeof(struct product_template),1,temporal);
+        printf("back to main\n");
+      }
+
+
+     } else { 
+       fwrite(&temp_c, sizeof(struct product_template), 1, temporal);
+     }
+     fread(&temp_c, sizeof(struct product_template),1, fileused_c);
+  }
+
+ 
+if (found == false) {
+  printf("\n se mamo usted \n");
+ }
+
+ fclose(temporal);
+ fclose(fileused_c);
+ int borrado;
+ borrado = remove("masterfile.txt");
+    if(borrado==0)
+    {
+        rename("temporal.txt", "masterfile.txt");
+    }
+
 
   return 0;
 }
