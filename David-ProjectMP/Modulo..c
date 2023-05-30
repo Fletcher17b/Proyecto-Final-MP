@@ -39,7 +39,7 @@ int main(){
         case 4: 
             limpiarbuffer(); 
             system("cls"); 
-            visualizarAtleta(Prod, sub1); 
+            visualizarAtleta(Prod, sub1); //Mario 5/30: typo, falta una s
 
             break;
         

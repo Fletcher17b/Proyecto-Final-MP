@@ -33,7 +33,7 @@ FILE * abrirFicheroA(){
     Franchyeska = fopen("Master.txt", "w");
     if(Franchyeska==NULL){
         printf("Error, el fichero no ha sido creado! \n");
-        return 1; 
+        return 1; // Mario 5/30: esta es una funcion de tipo FILE no de tipo int por lo que no puede retornar un entero 
     }
     else{
         printf("El fichero ha sido abierto en modo agregar. \n");
@@ -50,7 +50,7 @@ void AgregarProd(FILE *Franchyeska, struct Productos pr){
     Franchyeska = fopen("Master.txt", "a+");
     if(Franchyeska==NULL){
         printf("Error, el fichero no ha sido creado! \n");
-        return 1; 
+        return 1; //Mario 5/30: mismo que el error de mas arriba, tipo FILE no int
     }
     else
     {
@@ -149,6 +149,7 @@ void visualizarAtletas(FILE *Franchyeska, struct Productos pr)
         {
             contador++; 
             printf("%d \t %s \t\t %s \t %f \t %s \t\t %d \t %d \t %d \t %d \t %d", pr.prodID, pr. price, pr.descripcion, pr.sub.SucursalCentral, pr.sub.sucursal_1, pr.sub.sucursal_2, pr.sub.sucursal_3, pr.sub.sucursal_4); 
+            // Mario 5/30: verifica que los formatos (los %letra) concuerden con el tipo de variable de del struct usado, also hay un espacio en pr. price
             fread(&pr, sizeof(struct Productos), 1, Franchyeska); 
 
         }
@@ -199,7 +200,7 @@ void visualizarAtletas(FILE *Franchyeska, struct Productos pr)
                 printf("Cantidad en sucursal central: %d \n", pr.sub.SucursalCentral);
                 saltoLinea();
 
-                printf("cantidad en sucursal 1: %d \n", &pr.sub.sucursal_1);
+                printf("cantidad en sucursal 1: %d \n", &pr.sub.sucursal_1);  // Mario 5/30: el & no va por que llamas a la variable no a la direccion de ella
                 limpiarbuffer();
 
                 printf("cantidad en sucursal 2: %d \n", &pr.sub.sucursal_2);
