@@ -44,12 +44,12 @@
 int transferencia_interna_prods(FILE *ficheromod) {
   
  FILE *temporal;
- struct product_template temp_c;
+ struct Productos temp_c;
 
 
   char IDseeker[10];
 
-  int cantextract;
+  //int cantextract;
 
   int banderaloop1=0;
   int banderaloop2=0;
@@ -61,72 +61,72 @@ int transferencia_interna_prods(FILE *ficheromod) {
  
   //  int valuetochange = 0; 
  
- ficheromod = fopen("masterfile.txt","r");
+ ficheromod = fopen("Master.txt","r");
  temporal = fopen("temporal.txt","a+");
 
 printf("Ingrese la ID del producto del cual se le aumentara la cantidad\n");
   fgets(IDseeker,sizeof(IDseeker),stdin);
-  limipiarbuffer();
+  limpiarbuffer();
 
-   while (fread(&temp_c, sizeof(struct product_template), 1, ficheromod) == 1) {
+   while (fread(&temp_c, sizeof(struct Productos), 1, ficheromod) == 1) {
      
      if (!strcmp(temp_c.prodID, IDseeker)) {
           printf("%s\n", temp_c.prodID);
-          printf("central: %d \n", temp_c.sub.cantidad_en_centra);
-          printf("1: %d \n", temp_c.sub.cantidad_en_sucursal_1);
-          printf("2: %d \n", temp_c.sub.cantidad_en_sucursal_2);
-          printf("3: %d \n", temp_c.sub.cantidad_en_sucursal_3);
-          printf("4: %d \n", temp_c.sub.cantidad_en_sucursal_4);
+          printf("central: %d \n", temp_c.sub.SucursalCentral);
+          printf("1: %d \n", temp_c.sub.sucursal_1);
+          printf("2: %d \n", temp_c.sub.sucursal_2);
+          printf("3: %d \n", temp_c.sub.sucursal_3);
+          printf("4: %d \n", temp_c.sub.sucursal_4);
 
           printf("Digite la sucursal de origen: ");
           scanf("%d",&sucursalorg);
-          limipiarbuffer();
+          limpiarbuffer();
 
           printf("Digite la cantidad retirada: ");
           
 
         while (banderaloop1 !=1) {
           scanf("%d",&cantextract2);
-          limipiarbuffer();
+          limpiarbuffer();
            switch (sucursalorg)
           {
           case 1:
-            while (cantextract2 > temp_c.sub.cantidad_en_sucursal_1) {
+            while (cantextract2 > temp_c.sub.sucursal_1) {
                  printf("cantidad excede existencias, digite denuevo: ");
                  scanf("%d", &cantextract2);
-                 limipiarbuffer();
+                 limpiarbuffer();
             }
-            temp_c.sub.cantidad_en_sucursal_1 = temp_c.sub.cantidad_en_sucursal_1 - cantextract2; 
+            temp_c.sub.sucursal_1 = temp_c.sub.sucursal_1 - cantextract2; 
             banderaloop1 =1;
             break;
 
             case 2:
-            while (cantextract2 > temp_c.sub.cantidad_en_sucursal_2) {
+            while (cantextract2 > temp_c.sub.sucursal_2) {
                  printf("cantidad excede existencias, digite denuevo: ");
                  scanf("%d", &cantextract2);
-                 limipiarbuffer();
+                 limpiarbuffer();
             }
-            temp_c.sub.cantidad_en_sucursal_2 = temp_c.sub.cantidad_en_sucursal_2 - cantextract2; 
+            temp_c.sub.sucursal_2 = temp_c.sub.sucursal_2 - cantextract2; 
             banderaloop1 =1;
             break;
 
             case 3:
-            while (cantextract2 > temp_c.sub.cantidad_en_sucursal_3) {
+            while (cantextract2 > temp_c.sub.sucursal_3) {
                  printf("cantidad excede existencias, digite denuevo: ");
                  scanf("%d", &cantextract2);
-                 limipiarbuffer();
+                 limpiarbuffer();
             }
-            temp_c.sub.cantidad_en_sucursal_3 = temp_c.sub.cantidad_en_sucursal_3 - cantextract2; 
+            temp_c.sub.sucursal_3 = temp_c.sub.sucursal_3 - cantextract2; 
             banderaloop1 =1;
             break;
 
             case 4:
-            while (cantextract2 > temp_c.sub.cantidad_en_sucursal_4) {
+            while (cantextract2 > temp_c.sub.sucursal_4) {
                  printf("cantidad excede existencias, digite denuevo: ");
                  scanf("%d", &cantextract2);
-                 limipiarbuffer();
+                 limpiarbuffer();
             }
-            temp_c.sub.cantidad_en_sucursal_4 = temp_c.sub.cantidad_en_sucursal_4 - cantextract2; 
+            temp_c.sub.sucursal_4 = temp_c.sub.sucursal_4 - cantextract2; 
             banderaloop1 =1;
             break;
           
@@ -144,24 +144,24 @@ printf("Ingrese la ID del producto del cual se le aumentara la cantidad\n");
 
       while(banderaloop2!=1) {
           scanf("%d",&sucursaldest);
-          limipiarbuffer();
+          limpiarbuffer();
 
           switch (sucursaldest)
           {
           case 1:
-            temp_c.sub.cantidad_en_sucursal_1 = temp_c.sub.cantidad_en_sucursal_1 + cantextract2;
+            temp_c.sub.sucursal_1 = temp_c.sub.sucursal_1 + cantextract2;
             banderaloop2=1;
             break;
           case 2:
-            temp_c.sub.cantidad_en_sucursal_2 = temp_c.sub.cantidad_en_sucursal_2 + cantextract2;
+            temp_c.sub.sucursal_2 = temp_c.sub.sucursal_2 + cantextract2;
             banderaloop2=1;
             break;
           case 3:
-            temp_c.sub.cantidad_en_sucursal_3 = temp_c.sub.cantidad_en_sucursal_3 + cantextract2;
+            temp_c.sub.sucursal_3 = temp_c.sub.sucursal_3 + cantextract2;
             banderaloop2=1;
             break;
           case 4:
-            temp_c.sub.cantidad_en_sucursal_4 = temp_c.sub.cantidad_en_sucursal_4 + cantextract2;
+            temp_c.sub.sucursal_4 = temp_c.sub.sucursal_4 + cantextract2;
             banderaloop2=1;
             break;
           default:
@@ -170,10 +170,10 @@ printf("Ingrese la ID del producto del cual se le aumentara la cantidad\n");
           }
 
      }
-          fwrite(&temp_c, sizeof(struct product_template), 1, temporal);
+          fwrite(&temp_c, sizeof(struct Productos), 1, temporal);
 
      } else {
-        fwrite(&temp_c, sizeof(struct product_template), 1, temporal);
+        fwrite(&temp_c, sizeof(struct Productos), 1, temporal);
      }
    }
 
@@ -183,27 +183,27 @@ printf("Ingrese la ID del producto del cual se le aumentara la cantidad\n");
   fclose(temporal);
   fclose(ficheromod);
  int borrado;
- borrado = remove("masterfile.txt");
+ borrado = remove("Master.txt");
     if(borrado==0)
     {
-        rename("temporal.txt", "masterfile.txt");
+        rename("temporal.txt", "Master.txt");
     }
   return 0;
 }
 
 int verportipo(FILE *ficherodeverportipo) {
 
-struct product_template estructura;
+struct Productos estructura;
 int tipo;
 int comparador;
     
-ficherodeverportipo = fopen("masterfile.txt","r");
+ficherodeverportipo = fopen("Master.txt","r");
 rewind(ficherodeverportipo);
 
 
 printf("Digite tipo\n");
 scanf("%d",&tipo);
-limipiarbuffer();
+limpiarbuffer();
  
 switch (tipo)
 { 
@@ -223,19 +223,19 @@ default:
     break;
 }
 
- while (fread(&estructura, sizeof(struct product_template), 1, ficherodeverportipo) == 1) {
+ while (fread(&estructura, sizeof(struct Productos), 1, ficherodeverportipo) == 1) {
 
    if (estructura.tipo==comparador) {
        printf("\n \n%s \n",estructura.prodID);
        printf("\nNombre: %s \n", estructura.nombre);
-       printf("Precio: %.2f \n", estructura.priceunit);
+       printf("Precio: %.2f \n", estructura.price);
        printf("Descripcion: %s \n", estructura.descripcion);
 
-       printf("central: %d \n", estructura.sub.cantidad_en_centra);
-       printf("1: %d \n", estructura.sub.cantidad_en_sucursal_1);
-       printf("2: %d \n", estructura.sub.cantidad_en_sucursal_2);
-       printf("3: %d \n", estructura.sub.cantidad_en_sucursal_3);
-       printf("4: %d \n", estructura.sub.cantidad_en_sucursal_4);
+       printf("central: %d \n", estructura.sub.SucursalCentral);
+       printf("1: %d \n", estructura.sub.sucursal_1);
+       printf("2: %d \n", estructura.sub.sucursal_2);
+       printf("3: %d \n", estructura.sub.sucursal_3);
+       printf("4: %d \n", estructura.sub.sucursal_4);
    }
     
  }
@@ -245,13 +245,13 @@ default:
 
 int versucursal(FILE *ficherosucural) {
 
-    ficherosucural = fopen("masterfile.txt","r");
+    ficherosucural = fopen("Master.txt","r");
 
     if (ficherosucural == NULL) {
     printf("Error \n"); 
     return 1;
     }
-    struct product_template estructura;
+    struct Productos estructura;
     int banderadelloop =0;
 
 
@@ -261,41 +261,41 @@ int versucursal(FILE *ficherosucural) {
 
   while (banderadelloop!=1) {
   scanf("%d",&sucselct);
-  limipiarbuffer();
+  limpiarbuffer();
   switch (sucselct)
   {
   case 1:
     
     printf("Productos disponibles en sucursal 1: \n");  
     rewind(ficherosucural);  
-    while (fread(&estructura, sizeof(struct product_template), 1, ficherosucural) == 1) {
+    while (fread(&estructura, sizeof(struct Productos), 1, ficherosucural) == 1) {
 
-   if (estructura.sub.cantidad_en_sucursal_1 != 0) {
+   if (estructura.sub.sucursal_1 != 0) {
        printf("%s \n",estructura.prodID);
        printf("Nombre: %s \n", estructura.nombre);
-       printf("Precio: %.2f \n", estructura.priceunit);
+       printf("Precio: %.2f \n", estructura.price);
        printf("Descripcion: %s \n", estructura.descripcion);
 
-       printf("central: %d \n", estructura.sub.cantidad_en_centra);
-       printf("cantidad: %d \n\n", estructura.sub.cantidad_en_sucursal_1);
+       printf("central: %d \n", estructura.sub.SucursalCentral);
+       printf("cantidad: %d \n\n", estructura.sub.sucursal_1);
       
    }
-     limipiarbuffer();
+     limpiarbuffer();
  }
     banderadelloop =1;
     break;
   case 2:
     printf("Productos disponibles en sucursal 2: \n");    
-    while (fread(&estructura, sizeof(struct product_template), 1, ficherosucural) == 1) {
+    while (fread(&estructura, sizeof(struct Productos), 1, ficherosucural) == 1) {
 
-   if (estructura.sub.cantidad_en_sucursal_2 > 0) {
+   if (estructura.sub.sucursal_2 > 0) {
        printf("%s \n",estructura.prodID);
        printf("Nombre: %s \n", estructura.nombre);
-       printf("Precio: %.2f \n", estructura.priceunit);
+       printf("Precio: %.2f \n", estructura.price);
        printf("Descripcion: %s \n", estructura.descripcion);
 
-       printf("central: %d \n", estructura.sub.cantidad_en_centra);
-       printf("cantidad: %d \n\n", estructura.sub.cantidad_en_sucursal_2);
+       printf("central: %d \n", estructura.sub.SucursalCentral);
+       printf("cantidad: %d \n\n", estructura.sub.sucursal_2);
    }
     
  }
@@ -303,16 +303,16 @@ int versucursal(FILE *ficherosucural) {
     break;
   case 3:
     printf("Productos disponibles en sucursal 3: \n");    
-    while (fread(&estructura, sizeof(struct product_template), 1, ficherosucural) == 1) {
+    while (fread(&estructura, sizeof(struct Productos), 1, ficherosucural) == 1) {
 
-   if (estructura.sub.cantidad_en_sucursal_3 > 0) {
+   if (estructura.sub.sucursal_3 > 0) {
        printf("%s \n",estructura.prodID);
        printf("Nombre: %s \n", estructura.nombre);
-       printf("Precio: %.2f \n", estructura.priceunit);
+       printf("Precio: %.2f \n", estructura.price);
        printf("Descripcion: %s \n", estructura.descripcion);
 
-       printf("central: %d \n", estructura.sub.cantidad_en_centra);
-       printf("cantidad: %d \n\n", estructura.sub.cantidad_en_sucursal_3);
+       printf("central: %d \n", estructura.sub.SucursalCentral);
+       printf("cantidad: %d \n\n", estructura.sub.sucursal_3);
 
     
    }
@@ -322,16 +322,16 @@ int versucursal(FILE *ficherosucural) {
     break;
   case 4:
     printf("Productos disponibles en sucursal 4: \n");    
-    while (fread(&estructura, sizeof(struct product_template), 1, ficherosucural) == 1) {
+    while (fread(&estructura, sizeof(struct Productos), 1, ficherosucural) == 1) {
 
-   if (estructura.sub.cantidad_en_sucursal_4 > 0) {
+   if (estructura.sub.sucursal_4 > 0) {
        printf("%s \n",estructura.prodID);
        printf("Nombre: %s \n", estructura.nombre);
-       printf("Precio: %.2f \n", estructura.priceunit);
+       printf("Precio: %.2f \n", estructura.price);
        printf("Descripcion: %s \n", estructura.descripcion);
 
-       printf("central: %d \n", estructura.sub.cantidad_en_centra);
-       printf("cantidad: %d \n\n", estructura.sub.cantidad_en_sucursal_4);
+       printf("central: %d \n", estructura.sub.SucursalCentral);
+       printf("cantidad: %d \n\n", estructura.sub.sucursal_4);
 
     
    }
