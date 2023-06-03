@@ -15,6 +15,7 @@ int main() {
         {
             printf("Pulsaste 1, aqui tendras mas informacion de la tienda\n");
             printf("Nuestra sucursal principal esta ubicada en bello horizonte, para ser exacto de la rotonda de bello horizonte 2 cuadras al sur, 1 cuadra al oeste y media cuadra al sur. Para contactarte con nosotros puedes usar nuestras redes sociales o nuestro whatsapp +505 8112 1134\n ");
+            limpiarbuffer();
         }
         
         break;
@@ -30,7 +31,7 @@ int main() {
 
     int opregistro;
     printf("Eres nuevo usuario o ya has ingresado alguna vez?\n");
-    printf("Si eres nuevo pulsa 1, si ya te habias registrado pulsa 2\n");
+    printf("Si eres nuevo pulsa 1, si ya te habias registrado pulsa 2, si quieres eliminar tu registro pulsa 3.\n");
     scanf("%d", &opregistro);
 
     switch (opregistro) {
@@ -42,7 +43,7 @@ int main() {
         case 2:
             {
                 char nombreArchivo[100];
-                printf("Ingrese el nombre del archivo a buscar: ");
+                printf("Ingrese el nombre del archivo a buscar (agrega .txt): ");
                 scanf("%s", nombreArchivo);
 
                 int resultado = buscarArchivo(nombreArchivo);
@@ -55,7 +56,16 @@ int main() {
                     printf("Usted ya esta registrado, Bienvenido\n");
                 }
                 break;
+                limpiarbuffer();
             }
+        case 3:
+        {
+            char nombreArchivo[100];
+            printf("Usted ha elegido eliminar su registro\n");
+            borrarArchivo();
+            break;
+
+        }
         default:
             printf("Por favor, ingresa una opción valida para que podamos continuar\n");
             break;
