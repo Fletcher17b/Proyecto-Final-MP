@@ -4,12 +4,15 @@
 #include <stdbool.h>
 #include "Struct.h"
 #include "Funciones.h"
+#include "Prueba.h"
 
 int main(){
     int op= 0; 
     struct Productos sub1;
+    struct Productos prov1;
     int banderaw = 0;
     FILE *Prod=NULL;
+    FILE *Dat=NULL; 
     
 
     while (!banderaw)
@@ -20,7 +23,9 @@ int main(){
         case 1:
             limpiarbuffer(); 
             system("cls"); 
-            AgregarProd(Prod, sub1); 
+            int opmenu= 0; 
+            opmenu= Menutipo(Prod, sub1, Dat, prov1);  
+            
 
             break;
         case 2: 
@@ -39,7 +44,7 @@ int main(){
         case 4: 
             limpiarbuffer(); 
             system("cls"); 
-            visualizarAtleta(Prod, sub1); //Mario 5/30: typo, falta una s
+            visualizarProductos(Prod, sub1); 
 
             break;
         

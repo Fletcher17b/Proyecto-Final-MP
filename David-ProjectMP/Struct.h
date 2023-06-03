@@ -1,5 +1,6 @@
 #pragma once
 
+
 struct cantproductos
 {
     int SucursalCentral; 
@@ -10,12 +11,25 @@ struct cantproductos
 
 };
 
+struct proveedores
+{
+    char NameProv[60];
+    char productop[30];
+    
+    
+};
+
+
 struct Productos
 {
     char prodID[10];  
     char nombre[50];
     float price;
-    char descripcion[200];
+    char descripcion[400];
+    char Tipo[25];
+    int tipo;
+
+    struct proveedores prov; 
     struct cantproductos sub; 
    
 };
