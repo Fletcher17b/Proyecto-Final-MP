@@ -30,6 +30,13 @@ struct proveedores //David
 
 };
 
+struct Cliente //Armando
+{
+    char nombre[50];
+    char direccion[100];
+    int telefono[20];
+    char cedula[30];
+};
 
 struct Productos {
  char prodID[10];  
@@ -42,4 +49,27 @@ struct Productos {
  struct proveedores prov; 
  struct cantdist sub;
  
+};
+
+struct fact_detalle {
+ char prodID[10];  
+ int tipo;
+ char Tipo[25];
+ char nombre[50];
+ float price;
+ char descripcion[200];
+ 
+};
+
+struct fact_enc {
+   char IDfact[10];
+   char IDorg[10];
+   char numser[10];
+   char cajero[20];
+   char IDcliente;
+   float subtotal;
+   float iva;
+   float total;
+
+   struct fact_detalle detalle;
 };
