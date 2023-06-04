@@ -14,7 +14,7 @@ cleanscreen();
 
 FILE *Franchyeska = NULL;
 FILE *Dat=NULL; 
-struct Productos pr1;
+
 
 int bandera =0;
 int eleccion = 0;
@@ -25,17 +25,17 @@ scanf("%d",&eleccion);
 switch (eleccion)
      {
 case 1:
-    PrincipFunc_Agregar(Franchyeska,pr1,Dat);
+    PrincipFunc_Agregar(Franchyeska,Dat);
     cleanscreen();
     break;
 
 case 2:
-    transferencia_interna_prods(Franchyeska);
+    transferencia_interna_prods();
     cleanscreen();
     break;
 
 case 3:
-    visualizarProductos(Franchyeska,pr1);
+    visualizarProductos(Franchyeska);
     cleanscreen();
     break;
 

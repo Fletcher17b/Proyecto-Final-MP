@@ -28,8 +28,6 @@ struct proveedores //David
     char NameProv[60];
     char productprovID[30];
 
-    
-    
 };
 
 

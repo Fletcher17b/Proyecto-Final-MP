@@ -41,33 +41,36 @@
 */
 
 
-int transferencia_interna_prods(FILE *ficheromod) {
-  
- FILE *temporal;
+int transferencia_interna_prods() {
+ FILE *ficheromod;
+  FILE *temporal;
  struct Productos temp_c;
-
-
   char IDseeker[10];
-
-  //int cantextract;
-
   int banderaloop1=0;
   int banderaloop2=0;
-
   int sucursalorg =0;
   int sucursaldest =0;
   int cantextract2 =0;
-  
- 
-  //  int valuetochange = 0; 
  
  ficheromod = fopen("Master.txt","r");
- temporal = fopen("temporal.txt","a+");
+ temporal = fopen("temp.txt","w+");
 
-printf("Ingrese la ID del producto del cual se le aumentara la cantidad\n");
-  fgets(IDseeker,sizeof(IDseeker),stdin);
+ if (ficheromod == NULL || temporal == NULL) {
+        printf("Error opening file \n");
+        return -1;
+    }
+
+limpiarbuffer();
+printf("Ingrese la ID del producto el cual se va a transferir\n");
+  gets(IDseeker);
   limpiarbuffer();
-
+   
+   rewind(ficheromod);
+   int bumb;
+   bumb = fread(&temp_c, sizeof(struct Productos), 1, ficheromod);
+   printf("%d\n",bumb);
+   
+   rewind(ficheromod);
    while (fread(&temp_c, sizeof(struct Productos), 1, ficheromod) == 1) {
      
      if (!strcmp(temp_c.prodID, IDseeker)) {
@@ -78,14 +81,24 @@ printf("Ingrese la ID del producto del cual se le aumentara la cantidad\n");
           printf("3: %d \n", temp_c.sub.sucursal_3);
           printf("4: %d \n", temp_c.sub.sucursal_4);
 
-          printf("Digite la sucursal de origen: ");
+        int sucurvalid =0;
+        printf("Digite la sucursal de origen: ");
+        while (sucurvalid !=1)
+        {
+          
           scanf("%d",&sucursalorg);
+          if (sucursalorg == 1 || sucursalorg ==2 || sucursalorg == 3||sucursalorg == 4 )
+          { sucurvalid =1;} else { printf("Cant invalid\n"); }
+        }
+        
+          
+        
           limpiarbuffer();
 
           printf("Digite la cantidad retirada: ");
           
 
-        while (banderaloop1 !=1) {
+        while (banderaloop1 !=1) { 
           scanf("%d",&cantextract2);
           limpiarbuffer();
            switch (sucursalorg)
@@ -175,19 +188,41 @@ printf("Ingrese la ID del producto del cual se le aumentara la cantidad\n");
      } else {
         fwrite(&temp_c, sizeof(struct Productos), 1, temporal);
      }
+
    }
 
 
 
+  int cerro1,cerro2;
+  cerro1 = fclose(temporal);
+  cerro2 = fclose(ficheromod);
 
-  fclose(temporal);
-  fclose(ficheromod);
- int borrado;
- borrado = remove("Master.txt");
-    if(borrado==0)
-    {
-        rename("temporal.txt", "Master.txt");
+  if (cerro1 == 0 ) {
+    printf("cerro bien temporal\n");
+  }
+
+  if (cerro2 == 0 ) {
+    printf("cerro bien master\n");
+  }
+
+  // Codigo no funciona sin esto, por que? no tengo idea -Mario
+    ficheromod = fopen("Master.txt", "a"); //cambiar a por w
+    fclose(ficheromod);
+
+ int borrado = remove("Master.txt");
+ printf("remove: %d\n",borrado);
+    if (borrado == 0) {
+        int renombrado = rename("temp.txt", "Master.txt");
+        printf("rename: %d\n",renombrado);
+        if (renombrado != 0) {
+            printf("Error renaming temp.txt to Master.txt\n");
+            return -1; 
+        }
+    } else {
+        printf("Error removing Master.txt\n");
+        return -1;
     }
+
   return 0;
 }
 

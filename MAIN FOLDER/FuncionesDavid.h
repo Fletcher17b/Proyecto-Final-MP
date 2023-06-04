@@ -142,8 +142,9 @@ void subAgregarProd(FILE *Franchyeska, struct Productos pr, FILE *Datos){
 }
 
 
-int PrincipFunc_Agregar(FILE *Franchyeska, struct Productos pr, FILE *dat){
+int PrincipFunc_Agregar(FILE *Franchyeska,FILE *dat){
 
+    struct Productos pr;
     int opcM = 0; 
     printf("\n ****** Ingrese el tipo de producto *****\n");
     printf(" - Opcion 1: Collares \n");
@@ -191,7 +192,7 @@ int PrincipFunc_Agregar(FILE *Franchyeska, struct Productos pr, FILE *dat){
     return opcM;
 }
 
-int visualizarProductos(FILE *Franchyeska, struct Productos pr)
+int visualizarProductos(FILE *Franchyeska)
 {   
     int contador;
     Franchyeska = fopen("Master.txt", "r");
@@ -201,14 +202,15 @@ int visualizarProductos(FILE *Franchyeska, struct Productos pr)
          
     }
     
-
+    struct Productos pr;
     char prodID[10];
     int opc= 0; 
     limpiarbuffer(); 
     printf("Digite - 1 - para ver todos los productos\n"); 
-    printf("Digite - 2- para ver un producto especifico\n"); 
-    printf("Digite 3 para ver productos por tipo\n");
-    printf("Digite 4 para ver por sucursal\n");
+    printf("Digite - 2 - para ver un producto especifico\n"); 
+    printf("Digite - 3 - para ver productos por tipo\n");
+    printf("Digite - 4 - para ver por sucursal\n");
+    printf("Digite - 5 - para volver\n");
     scanf("%d", &opc);
     limpiarbuffer(); 
 
@@ -304,14 +306,19 @@ int visualizarProductos(FILE *Franchyeska, struct Productos pr)
 
 
     case 3:
-      verportipo(Franchyeska);
+       verportipo(Franchyeska);
        break;
 
     case 4: 
        versucursal(Franchyeska);
        break;   
     
+    case 5:
+       
+         
+       break;
     default:
+      printf("Invalid data");
         break;
     }
 
