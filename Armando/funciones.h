@@ -46,11 +46,7 @@ void registroCliente() {
         exit(1);
     }
 
-    fprintf(file, "Nombre: %s\n", nuevoCliente.nombre);
-    fprintf(file, "Direccion: %s\n", nuevoCliente.direccion);
-    fprintf(file, "Telefono: %d\n", nuevoCliente.telefono);
-    fprintf(file, "Cedula: %d\n", nuevoCliente.cedula);
-
+    fwrite(&nuevoCliente, sizeof(struct Cliente), 1, file);
     fclose(file);
 }
 
@@ -89,6 +85,7 @@ void borrarArchivo() {
         printf("No se pudo eliminar el archivo.\n");
     }
 }
+
 
 
 int eliminarArchivo(const char* nombreArchivo) {
