@@ -14,7 +14,7 @@ int main() {
         if (op==1)
         {
             printf("Pulsaste 1, aqui tendras mas informacion de la tienda\n");
-            printf("Nuestra sucursal principal esta ubicada en bello horizonte, para ser exacto de la rotonda de bello horizonte 2 cuadras al sur, 1 cuadra al oeste y media cuadra al sur. Para contactarte con nosotros puedes usar nuestras redes sociales o nuestro whatsapp +505 8112 1134\n ");
+            printf("Nuestra sucursal principal esta ubicada en bello horizonte, para ser exacto de la rotonda de bello horizonte 2 cuadras al sur, 1 cuadra al oeste y media cuadra al sur. Para contactarte con nosotros puedes usar nuestras redes sociales o nuestro whatsapp +505 8112 1134\n \n");
             limpiarbuffer();
         }
         
@@ -30,6 +30,7 @@ int main() {
     }
 
     int opregistro;
+    cleanscreen();
     printf("Eres nuevo usuario o ya has ingresado alguna vez?\n");
     printf("Si eres nuevo pulsa 1, si ya te habias registrado pulsa 2, si quieres eliminar tu registro pulsa 3.\n");
     scanf("%d", &opregistro);
