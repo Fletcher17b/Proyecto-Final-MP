@@ -70,91 +70,6 @@ struct Cliente {
     int telefono[20];
 };
 
-struct fact_enc info_fact() {
-    struct fact_enc enc;
-    time_t fecha;
-    int num=0;
-    bool found;
-    time(&fecha);
-
-    printf("\n*************Factura Encabezado**************\n");
-    printf("\nIngrese ID de la factura ");
-    gets(enc.IDfact );
-    limpiarbuffer(); 
-       
-    printf("\nIngrese ID de la organización: ");
-    gets(enc.IDorg );
-    limpiarbuffer(); 
-      
-    printf("\n Fecha : ");
-    printf("%s\n", ctime(&fecha));
-    limpiarbuffer(); 
-
-    num++;
-    printf("\n Numero de factura %d",num);
-    printf( ": \n");
-    limpiarbuffer(); 
-
-    printf("\n Estimado usuario, digite numero de serie (Ingrese letra ) : ");
-    gets(enc.numser);
-    limpiarbuffer();
-
-    printf("\n Atendido por : ");
-    gets(enc.cajero);
-    limpiarbuffer();
-
-    printf("\n ID de cliente : "); 
-    gets(IDcliente);
-    fread(&temp_b, sizeof(struct product_template),1, fileused_b);
-
-
-    
-
-}
-
-struct fact_enc info_fact() {
-    struct fact_enc enc;
-    time_t fecha;
-    int num=0;
-    bool found;
-    time(&fecha);
-
-    printf("\n*************Factura Encabezado**************\n");
-    printf("\nIngrese ID de la factura ");
-    gets(enc.IDfact );
-    limpiarbuffer(); 
-       
-    printf("\nIngrese ID de la organización: ");
-    gets(enc.IDorg );
-    limpiarbuffer(); 
-      
-    printf("\n Fecha : ");
-    printf("%s\n", ctime(&fecha));
-    limpiarbuffer(); 
-
-    num++;
-    printf("\n Numero de factura %d",num);
-    printf( ": \n");
-    limpiarbuffer(); 
-
-    printf("\n Estimado usuario, digite numero de serie (Ingrese letra ) : ");
-    gets(enc.numser);
-    limpiarbuffer();
-
-    printf("\n Atendido por : ");
-    gets(enc.cajero);
-    limpiarbuffer();
-
-    printf("\n ID de cliente : "); 
-    gets(IDcliente);
-    fread(&temp_b, sizeof(struct product_template),1, fileused_b);
-
-
-    
-
-}
-
-
 
 
 struct product_template get_info() {
@@ -244,7 +159,7 @@ int agregarprod(FILE *fileused_a) {
 
       fileused_a = fopen("masterfile.txt","a");
         
-      limipiarbuffer();
+      limpiarbuffer();
       structtemp = get_info();
       guardadobien = fwrite(&structtemp, sizeof(struct product_template),1, fileused_a );
 
@@ -294,7 +209,7 @@ int ver_producto(FILE *fileVProducto, struct product_template prod)
 
 
 // retirar producto 
-void retirar_producto(FILE *fileProducto, struct product_template prod)
+int retirar_producto(FILE *fileProducto, struct product_template prod)
 {
     FILE *temporal;
  struct product_template prod;
@@ -304,6 +219,7 @@ void retirar_producto(FILE *fileProducto, struct product_template prod)
     int buscar=0;
     int sucursal=0;
     int ext_cant=0;
+    
     char ID[10];
     
     printf("**********Retirar producto***********\n");
@@ -334,6 +250,7 @@ void retirar_producto(FILE *fileProducto, struct product_template prod)
     float subtotal;
     float iva=1.5;
     float total;
+    int opcfact=0;
 
     subtotal= prod.price*ext_cant;
     printf("Su subtotal a pagar es de= %.2f \n", subtotal);
@@ -343,12 +260,100 @@ void retirar_producto(FILE *fileProducto, struct product_template prod)
     total= subtotal*iva;
     printf("Su total a pagar es de= %.2f \n", total);
 
+    printf("¿Desea imprimir su factura?\n");
+    printf("Digite 1 para guardar, 0 solo para salir: \n");
+   scanf("%d", &opcfact);
+   if (opcfact==1)
+   {
+    print_factura(FILE *fileFactura);
+
+   }
+   
+
+
+
+
+
 
 }
   
 }
 
 
+struct fact_detalle {
+  char ID_fact[10];
+  char U_medid[10];
+ char prodID[10];  
+ int tipo;
+ char Tipo[25];
+ char nombre[50];
+ float price;
+ char descripcion[200];
+ float subtotal1;
+ 
+};
+
+struct fact_enc {
+   char IDfact[10];
+   char IDorg[10];
+   char numser[10];
+   char cajero[20];
+   char IDcliente;
+   float subtotal;
+   float iva;
+   float total;
+
+   struct fact_detalle detalle;
+};
+
+struct fact_enc info_fact() {
+    struct fact_enc enc;
+    time_t fecha;
+    int num=0;
+    bool found;
+    time(&fecha);
+
+    printf("\n*************Factura Encabezado**************\n");
+    printf("\nIngrese ID de la factura ");
+    gets(enc.IDfact );
+    limpiarbuffer(); 
+       
+    printf("\nIngrese ID de la organización: ");
+    gets(enc.IDorg );
+    limpiarbuffer(); 
+      
+    printf("\n Fecha : ");
+    printf("%s\n", ctime(&fecha));
+    limpiarbuffer(); 
+
+    num++;
+    printf("\n Numero de factura %d",num);
+    printf( ": \n");
+    limpiarbuffer(); 
+
+    printf("\n Estimado usuario, digite numero de serie (Ingrese letra ) : ");
+    gets(enc.numser);
+    limpiarbuffer();
+
+    printf("\n Atendido por : ");
+    gets(enc.cajero);
+    limpiarbuffer();
+
+    printf("\n ID de cliente : "); 
+    gets(IDcliente);
+    fread(&temp_b, sizeof(struct product_template),1, fileused_b);
+
+    printf("\n*************Factura Detalle**************\n");
+    printf("\nIngrese ID de la factura: ");
+    gets(enc.detalle.ID_fact);
+    limpiarbuffer();
+    printf("\nNumero de Factura: %d",num);
+    limpiarbuffer(); 
+    printf("\nIngrese Unidad de medida del producto: ");
+    gets(enc.detalle.U_medid);
+    limpiarbuffer();
+
+}
 
 //realizar factura
 int print_factura(FILE *fileFactura)
@@ -373,6 +378,7 @@ int print_factura(FILE *fileFactura)
       limpiarbuffer();
       factura = info_fact();
       crearfact = fwrite(&factura, sizeof(struct fact_enc),1, fileFactura);
+
 
       if (crearfact>0) {
        printf("Su factura se ha creado correctamente...\n");
@@ -399,11 +405,34 @@ int menu_fac()
 {
     int opcion = 0;
     printf("\n ********** Menu de facturación **********\n");
-    printf("- Opcion 1: Buscar producto \n");
+    printf("- Opcion 1: Ver producto \n");
     printf("- Opcion 2: Retirar porducto\n");
-    printf("- Opcion 3: Realizar factura \n"); // o luego de retirar producto
     printf("- Opcion 4: Salir \n");
     printf("- Digite su opcion: ");
     scanf("%d", &opcion);
+    switch (opcion)
+    {
+    case 1:
+    printf("Usted ha ingresado a Buscar producto \n");
+    ver_producto();
+    limpiarbuffer();
+    screenclean();
+      break;
+
+    case 2:
+    printf("Usted ha ingresado a Retirar Producto \n");
+    retirar_producto();
+    limpiarbuffer();
+    screenclean();
+
+      break;
+    default:
+      break;
+    }
+
+
+
+
+
     return opcion;
 }
