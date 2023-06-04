@@ -18,116 +18,34 @@ void screenclean() {
 }
 
 struct cantdist {
-    int SucursalCentral;
-    int sucursal_1;
-    int sucursal_2;
-    int sucursal_3;
-    int sucursal_4;
+    int cantidad_en_centra;
+    int cantidad_en_sucursal_1;
+    int cantidad_en_sucursal_2;
+    int cantidad_en_sucursal_3;
+    int cantidad_en_sucursal_4;
 
 };
 
 
 struct product_template {
-    char prodID[10];  
- int tipo;
- char Tipo[25];
+ char prodID[10];  
  char nombre[50];
- float price;
+ float priceunit;
  char descripcion[200];
+ float gastos_varios; 
 
  struct cantdist sub;
  
 };
 
-struct fact_detalle {
- char prodID[10];  
- int tipo;
- char Tipo[25];
- char nombre[50];
- float price;
- char descripcion[200];
- 
+struct factura {
+    int cantidad_en_centra;
+    int cantidad_en_sucursal_1;
+    int cantidad_en_sucursal_2;
+    int cantidad_en_sucursal_3;
+    int cantidad_en_sucursal_4;
+
 };
-
-struct fact_enc {
-   char IDfact[10];
-   char IDorg[10];
-   char numser[10];
-   char cajero[20];
-   char IDcliente;
-   float subtotal;
-   float iva;
-   float total;
-
-   struct fact_detalle detalle;
-};
-
-struct Cliente {
-    char nombre[50];
-    char direccion[100];
-    int telefono;
-    int telefono[20];
-};
-
-struct fact_enc info_fact() {
-    struct fact_enc enc;
-    time_t fecha;
-    int num=0;
-    bool found;
-    time(&fecha);
-
-    printf("\n*************Factura Encabezado**************\n");
-    printf("\nIngrese ID de la factura ");
-    gets(enc.IDfact );
-    limpiarbuffer(); 
-       
-    printf("\nIngrese ID de la organización: ");
-    gets(enc.IDorg );
-    limpiarbuffer(); 
-      
-    printf("\n Fecha : ");
-    printf("%s\n", ctime(&fecha));
-    limpiarbuffer(); 
-
-    num++;
-    printf("\n Numero de factura %d",num);
-    printf( ": \n");
-    limpiarbuffer(); 
-
-    printf("\n Estimado usuario, digite numero de serie (Ingrese letra ) : ");
-    gets(enc.numser);
-    limpiarbuffer();
-
-    printf("\n Atendido por : ");
-    gets(enc.cajero);
-    limpiarbuffer();
-
-    printf("\n ID de cliente : "); 
-    gets(IDcliente);
-    fread(&temp_b, sizeof(struct product_template),1, fileused_b);
-    while(!feof(fileused_b)) {
-  if(!strcmp(IDcliente, temp_b.prodID)) {
-    found = true;
-    limpiarbuffer();
-    int loopexit1 = 0;
-    int valuetochange = 0; 
-
-    printf("\nNombre: %s \n", temp_b.nombre);
-    printf("Precio: %.2f \n", temp_b.priceunit);
-    printf("Descripcion: %s \n", temp_b.descripcion);}
-    }
-
-}
-
-
-int other_info(){
-
-    printf("Usted ha decido realizar su factura:");
-
-
-
-}
-
 
 struct factura get_fact() {
     struct product_template input;
@@ -140,7 +58,7 @@ struct factura get_fact() {
       limpiarbuffer();
 
       printf("\nIngrese precio: ");
-      scanf("%f",&input.price);
+      scanf("%f",&input.priceunit);
       limpiarbuffer();
 
       printf("\nIngrese una breve descripcion del producto: ");
@@ -151,11 +69,11 @@ struct factura get_fact() {
      
       
       printf("\nIngrese la cantidad central: ");
-      cant_centralverifier = scanf("%d",&input.sub.SucursalCentral);
+      cant_centralverifier = scanf("%d",&input.sub.cantidad_en_centra);
       limpiarbuffer();
       while (cant_centralverifier == 0) {
           printf("\n invalid input, ingrese valor otra vez\n");
-          cant_centralverifier = scanf("%d",&input.sub.SucursalCentral);
+          cant_centralverifier = scanf("%d",&input.sub.cantidad_en_centra);
           limpiarbuffer();
       }
 
@@ -163,23 +81,23 @@ struct factura get_fact() {
        
       while (cantidades_conduerdan != 1 ) {
         printf("\nIngrese la cantidad en sucursal 1: ");
-        scanf("%d",&input.sub.sucursal_1);
+        scanf("%d",&input.sub.cantidad_en_sucursal_1);
         limpiarbuffer();
 
         printf("\nIngrese la cantidad sucursal 2: ");
-        scanf("%d",&input.sub.sucursal_2);
+        scanf("%d",&input.sub.cantidad_en_sucursal_2);
         limpiarbuffer();
 
         printf("\nIngrese la cantidad sucursal 3: ");
-        scanf("%d",&input.sub.sucursal_3);
+        scanf("%d",&input.sub.cantidad_en_sucursal_3);
         limpiarbuffer();
 
         printf("\nIngrese la cantidad sucursal 4: ");
-        scanf("%d",&input.sub.sucursal_4);
+        scanf("%d",&input.sub.cantidad_en_sucursal_4);
         limpiarbuffer();
         
-        int suma = input.sub.sucursal_1 + input.sub.sucursal_2 + input.sub.sucursal_3 + input.sub.sucursal_4;
-        if (suma != input.sub.SucursalCentral) {
+        int suma = input.sub.cantidad_en_sucursal_1 + input.sub.cantidad_en_sucursal_2 + input.sub.cantidad_en_sucursal_3 + input.sub.cantidad_en_sucursal_4;
+        if (suma != input.sub.cantidad_en_centra) {
           printf("\ncantidades repartidas no concuerdan con la central\n");
         } else {
           cantidades_conduerdan = 1;
@@ -191,7 +109,7 @@ struct factura get_fact() {
 }
 
 //almacenar producto
-int new_product(FILE *fileProducto, struct product_template prod)
+void new_product(FILE *fileProducto, struct product_template prod)
 {
   int agregado = 0;
     if(fileProducto!=NULL){
@@ -206,9 +124,9 @@ int new_product(FILE *fileProducto, struct product_template prod)
         printf("Nombre del producto: ");
         gets(prod.nombre);
         printf("\n");
-        limpiarbuffer();
+       limpiarbuffer();
         printf("Precio: ");
-        scanf("%f", &prod.price);
+        scanf("%f", &prod.priceunit);
         printf("\n");
         limpiarbuffer();
         printf("Descripcion: ");
@@ -233,7 +151,7 @@ int new_product(FILE *fileProducto, struct product_template prod)
 
 
 //ver producto
-int ver_producto(FILE *fileProducto, struct product_template prod)
+void ver_producto(FILE *fileProducto, struct product_template prod)
 {
     int ver=0;
     limpiarbuffer();
@@ -246,7 +164,7 @@ int ver_producto(FILE *fileProducto, struct product_template prod)
      ver++;
      printf("%s \n", ver, prod.prodID);
      printf("%s \n", ver, prod.nombre);
-     printf("%d \n", ver, prod.price);
+     printf("%d \n", ver, prod.priceunit);
      printf("%s \n", ver, prod.descripcion);
      fread(&prod, sizeof(struct product_template), 1, fileProducto);
     }
@@ -258,7 +176,7 @@ int ver_producto(FILE *fileProducto, struct product_template prod)
 void retirar_producto(FILE *fileProducto, struct product_template prod)
 {
     FILE *temporal;
- struct product_template prod;
+ struct product_template temp_c;
  
  fileProducto = fopen("facturafile.txt","r");
  temporal = fopen("temporal.txt","a+");
@@ -278,35 +196,18 @@ void retirar_producto(FILE *fileProducto, struct product_template prod)
         buscar=true;
         limpiarbuffer();
         printf("Nombre: %s \n", prod.nombre);
-        printf("Precio del producto: %.2f \n", prod.price);
+        printf("Precio del producto: %.2f \n", prod.priceunit);
         printf("Descripcion: %s \n", prod.descripcion);
         }
     }
    
    printf("Digite el numero de productos que desea extraer:\n");
    scanf("%d", &ext_cant);
-   if (ext_cant==0)
-   {
-    printf("Regresando al menu principal...\n");
-
-   }
-   else
-   {
-    float subtotal;
-    float iva=1.5;
-    float total;
-
-    subtotal= prod.price*ext_cant;
-    printf("Su subtotal a pagar es de= %.2f \n", subtotal);
-    
-    printf("IVA= %.2f \n", iva);
-
-    total= subtotal*iva;
-    printf("Su total a pagar es de= %.2f \n", total);
+   if (ext_cant!=0);
 
 
-}
-  
+
+    return menu_fac();
 }
 
 
