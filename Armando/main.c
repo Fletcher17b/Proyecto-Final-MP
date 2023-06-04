@@ -14,7 +14,7 @@ int main() {
         if (op==1)
         {
             printf("Pulsaste 1, aqui tendras mas informacion de la tienda\n");
-            printf("Nuestra sucursal principal esta ubicada en bello horizonte, para ser exacto de la rotonda de bello horizonte 2 cuadras al sur, 1 cuadra al oeste y media cuadra al sur. Para contactarte con nosotros puedes usar nuestras redes sociales o nuestro whatsapp +505 8112 1134\n \n");
+            printf("Nuestra sucursal principal esta ubicada en bello horizonte, para ser exacto de la rotonda de bello horizonte 2 cuadras al sur, 1 cuadra al oeste y media cuadra al sur. Para contactarte con nosotros puedes usar nuestras redes sociales aparecemos como Franchyeska Accesorios en todas las redes o contactate por nuestro whatsapp +505 8112 1134 estaremos encantados de atenderte\n \n");
             limpiarbuffer();
         }
         
@@ -22,7 +22,7 @@ int main() {
     case 2:
     if (op==2)
     {
-        printf("Gracias por visitarnos, continua navegando.\n");
+        printf(" Pulsaste 2, Gracias por visitarnos, continua navegando.\n");
     }
     
     default:
