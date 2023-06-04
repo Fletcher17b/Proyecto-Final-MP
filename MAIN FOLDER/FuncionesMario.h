@@ -10,26 +10,12 @@
 /*
  - Que cosas van aqui?
       - Ver productos por:
+        -traslado interno de productos entre sucursales
         -Tipo
         -Sucurcal
-        -Producto particular
+        - WIP: manejo de existencias en la factura
   
       - Cuando hay una compra (ingreso de productos) mediante la funcion "modificar" se realiza la suma 
-
- - Notas:
-    Estas funciones tienen que estar dentro de un menu con un puntero, las funciones reciven ese puntero (no lo crean individualmente)
-    ejemplo:
-
-    int menu() {
-       FILE *cualquiernombre = NULL;
-       
-       switch(var) {
-        case x:
-          funcion_a_llamar(cualquiernombre);
-        break;
-       }
-        return 69;
-    }
 
  - Detalles de funciones:
 
@@ -42,7 +28,9 @@
 
 
 int transferencia_interna_prods() {
- FILE *ficheromod;
+
+  //codigos de error: 1 rename() no funciono 2 remove() no funciono, 0 es que todo bien
+  FILE *ficheromod;
   FILE *temporal;
  struct Productos temp_c;
   char IDseeker[10];
@@ -52,16 +40,18 @@ int transferencia_interna_prods() {
   int sucursaldest =0;
   int cantextract2 =0;
  
- ficheromod = fopen("Master.txt","r");
- temporal = fopen("temp.txt","w+");
+   ficheromod = fopen("Master.txt","r");
+  temporal = fopen("temp.txt","w+");
 
+//Validacion 
  if (ficheromod == NULL || temporal == NULL) {
-        printf("Error opening file \n");
-        return -1;
+        printf("Error al abrir fichero \n");
+        return 1;
     }
 
-limpiarbuffer();
-printf("Ingrese la ID del producto el cual se va a transferir\n");
+//Proceso principal
+  limpiarbuffer();
+  printf("Ingrese la ID del producto el cual se va a transferir\n");
   gets(IDseeker);
   limpiarbuffer();
    
@@ -193,7 +183,7 @@ printf("Ingrese la ID del producto el cual se va a transferir\n");
 
 
 
-  int cerro1,cerro2;
+  int cerro1,cerro2; //Variables para acesiorarse que cerrraron bien los ficheros
   cerro1 = fclose(temporal);
   cerro2 = fclose(ficheromod);
 
@@ -209,18 +199,18 @@ printf("Ingrese la ID del producto el cual se va a transferir\n");
     ficheromod = fopen("Master.txt", "a"); //cambiar a por w
     fclose(ficheromod);
 
- int borrado = remove("Master.txt");
- printf("remove: %d\n",borrado);
+   int borrado = remove("Master.txt");
+   printf("remove: %d\n",borrado);
     if (borrado == 0) {
         int renombrado = rename("temp.txt", "Master.txt");
         printf("rename: %d\n",renombrado);
         if (renombrado != 0) {
-            printf("Error renaming temp.txt to Master.txt\n");
-            return -1; 
+            printf("Error en rename()\n");
+            return 1; 
         }
     } else {
-        printf("Error removing Master.txt\n");
-        return -1;
+        printf("Error al borrar Master\n");
+        return 2;
     }
 
   return 0;
@@ -386,3 +376,65 @@ int versucursal(FILE *ficherosucural) {
     fclose(ficherosucural);
     return 0;
 }
+
+// Funcion en WIP
+
+/*
+
+int manejoexistenciasfact(int sucursal ,char IDdelprod[10],int cantidadretirada) {
+
+  //Funcion en WIP pendiente comprobar con Claudia si funciona en conjunto con su parte
+  //codigos de error: 1 rename() no funciono 2 remove() no funciono, 0 es que todo bien
+
+  FILE *ficheromod = NULL;
+  FILE *temporal = NULL;
+  struct Productos temp_c;
+
+  ficheromod = fopen("Master.txt","r");
+  temporal = fopen("temp.txt","w+");
+  
+  rewind(ficheromod);
+  while (fread(&temp_c, sizeof(struct Productos), 1, ficheromod) == 1) 
+  {
+    if (!strcmp(IDdelprod,temp_c.prodID)) 
+    {
+       switch (sucursal)
+       {
+       case 1:
+          temp_c.sub.sucursal_1 = temp_c.sub.sucursal_1 - cantidadretirada; 
+        break;
+        case 2:
+          temp_c.sub.sucursal_2 = temp_c.sub.sucursal_2 - cantidadretirada; 
+        break;
+        case 3:
+          temp_c.sub.sucursal_3 = temp_c.sub.sucursal_3 - cantidadretirada; 
+        break;
+        case 4:
+          temp_c.sub.sucursal_4 = temp_c.sub.sucursal_4 - cantidadretirada; 
+        break;
+       }
+       fwrite(&temp_c,sizeof(struct Productos),1,ficheromod);
+
+    } else {
+      fwrite(&temp_c,sizeof(struct Productos),1,ficheromod);
+    }
+  }
+
+  fclose(temporal);
+  fclose(ficheromod);
+
+  int borrado = remove("Master.txt");
+    if (borrado == 0) {
+        int renombrado = rename("temp.txt", "Master.txt");
+        if (renombrado != 0) {
+            printf("Error en el rename()\n");
+            return 1;
+        }
+    } else {
+        printf("Error al borrar master\n");
+        return 2;
+    }  
+  return 0;
+}
+
+*/

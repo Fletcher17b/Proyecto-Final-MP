@@ -54,8 +54,37 @@ default:
 }
 
 int main(){
+  int loopexit=0;
+  int opcion;
 
-    gestion_inv();
+  while (loopexit!=1)
+  {
+    system("cls");
+    printf("Bienvenido a \n Usted dispone de las siguientes opciones: \n");
+    printf("1. Gestion de inventario \n 2. Facturar productos\n 4. Salir del programa\n");
+    scanf("%d",&opcion);
+    limpiarbuffer();
+
+    switch (opcion)
+    {
+    case 1:
+        gestion_inv();
+        break;
+    case 2:
+        /* code */
+        break;
+
+    case 4:
+        loopexit =1;
+        break;
+    
+    default:
+      printf("Opcion invalida\n");
+        break;
+    }
+  }
+  
+   
 
     return 0;
 }
