@@ -65,7 +65,7 @@ int buscarArchivo(const char* nombreArchivo) {
 
 void borrarArchivo() {
     char nombreArchivo[100];
-    printf("Ingrese el nombre del archivo a borrar: ");
+    printf("Ingrese su nombre de usuario (agregue .txt): ");
     scanf("%s", nombreArchivo);
     
     FILE* archivo = fopen(nombreArchivo, "r");
@@ -83,18 +83,5 @@ void borrarArchivo() {
         printf("Archivo eliminado con exito.\n");
     } else {
         printf("No se pudo eliminar el archivo.\n");
-    }
-}
-
-
-
-int eliminarArchivo(const char* nombreArchivo) {
-    int resultado = remove(nombreArchivo);
-    if (resultado == 0) {
-        printf("El archivo \"%s\" ha sido eliminado correctamente.\n", nombreArchivo);
-        return 0;
-    } else {
-        printf("Error al eliminar el archivo \"%s\".\n", nombreArchivo);
-        return -1;
     }
 }
