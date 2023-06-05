@@ -52,6 +52,8 @@ int buscarArchivo(const char* nombreArchivo) {
 
 void borrarArchivo() {
     char nombreArchivo[100];
+    printf("Usted ha elegido eliminar su registro\n");
+    char nombreArchivo[100];
     printf("Ingrese su nombre de usuario (agregue .txt): ");
     scanf("%s", nombreArchivo);
     
@@ -73,16 +75,20 @@ void borrarArchivo() {
     }
 }
 
+void Buscarusuario(){
+     char nombreArchivo[100];
+    printf("Ingrese su nombre de usuario (agrega .txt): ");
+     scanf("%s", nombreArchivo);
 
+    int resultado = buscarArchivo(nombreArchivo);
 
-
-int eliminarArchivo(const char* nombreArchivo) {
-    int resultado = remove(nombreArchivo);
     if (resultado == 0) {
-        printf("El archivo \"%s\" ha sido eliminado correctamente.\n", nombreArchivo);
-        return 0;
-    } else {
-        printf("Error al eliminar el archivo \"%s\".\n", nombreArchivo);
-        return -1;
+    printf("No estas registrado, por favor registrate a continuacion\n");
+    registroCliente();
+    printf("Registro de cliente completado.\n");
+    } 
+    else {
+    printf("Usted ya esta registrado, Bienvenido\n");
     }
 }
+
