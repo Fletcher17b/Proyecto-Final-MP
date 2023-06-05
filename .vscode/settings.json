@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "funcionesdavid.h": "c"
+        "funcionesdavid.h": "c",
+        "archivodefunciones.h": "c"
     }
 }

@@ -125,7 +125,7 @@ int main(){
         gestion_inv();
         break;
     case 2:
-        menu_fac();
+        consultaensucursal();
         break;
 
     case 4:

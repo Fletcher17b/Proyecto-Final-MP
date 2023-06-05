@@ -135,42 +135,6 @@ ficheromod = fopen("Master.txt","r");
           case 1:
 
      printf("Imprimir ");
-     
-    struct fact_enc info_fact() {
-    struct fact_enc enc;
-    time_t fecha;
-    int num=0;
-    bool found;
-    time(&fecha);
-
-    printf("\n*************Factura Encabezado**************\n");
-    printf("\nIngrese ID de la factura ");
-    gets(enc.IDfact );
-    limpiarbuffer(); 
-       
-    printf("\nIngrese ID de la organización: ");
-    gets(enc.IDorg );
-    limpiarbuffer(); 
-      
-    printf("\n Fecha : ");
-    printf("%s\n", ctime(&fecha));
-    limpiarbuffer(); 
-
-    num++;
-    printf("\n Numero de factura %d",num);
-    printf( ": \n");
-    limpiarbuffer(); 
-
-    printf("\n Estimado usuario, digite numero de serie (Ingrese letra ) : ");
-    gets(enc.numser);
-    limpiarbuffer();
-
-    printf("\n Atendido por : ");
-    gets(enc.cajero);
-    limpiarbuffer();
-
-
-}
 
                  
   break;
@@ -191,7 +155,7 @@ ficheromod = fopen("Master.txt","r");
      }
 
    }
-
-
-
 }
+
+
+
