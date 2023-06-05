@@ -91,3 +91,34 @@ void Buscarusuario(){
     }
 }
 
+void franchyeska_inicio(){
+    int op;
+    printf("-----Bienvenido a Franchyeska Accesorios-----\n");
+    printf("-----Somos una tienda de joyeria para mujeres.-----\n");
+    printf("si quieres obtener mas informacion sobre la tienda pulsa 1 de lo contrario pulsa cualquier otra tecla.\n");
+    scanf("%d", &op);
+    switch (op)
+    {
+    case 1:
+    limpiarbuffer();
+        if (op==1)
+        {
+            printf("Pulsaste 1, aqui tendras mas informacion de la tienda\n");
+            printf("Nuestra sucursal principal esta ubicada en bello horizonte, para ser exacto de la rotonda de bello horizonte 2 cuadras al sur, 1 cuadra al oeste y media cuadra al sur. Para contactarte con nosotros puedes usar nuestras redes sociales aparecemos como Franchyeska Accesorios en todas o contactate por nuestro whatsapp +505 8112 1134 estaremos encantados de atenderte\n \n");
+            limpiarbuffer();
+        }
+        
+        break;
+    case 2:
+    if (op!=1)
+    {
+        printf("Gracias por visitarnos, continua navegando.\n");
+    }
+    
+    default:
+        break;
+    }
+
+}
+
+
