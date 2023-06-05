@@ -4,7 +4,6 @@
 #include<stdlib.h>
 #include<stdbool.h>
 #include"struct.h"
-#include"extrafunctions.h"
 #include"funciones_de_verprods.h"
 
 
@@ -13,12 +12,12 @@ int vercantidades() {
     FILE *elfichero = NULL;
     
     
-  limipiarbuffer();
+  limpiarbuffer();
   int loopexit = 0;
   int choice2;
 
 while (loopexit != 1) {
-    limipiarbuffer();
+    limpiarbuffer();
     printf("Ver productos: \n 1. Por tipo \n 2. Producto especifico\n 3. Por sucursal \n 4. Salir \n");
     scanf("%d", &choice2);
     switch (choice2)
@@ -61,29 +60,28 @@ int movercantidades(){
  
 
 
-    limipiarbuffer();
-  int loopexit = 0;
-  int choice2;
-
-  printf("di");
+    
 
     return 0;
 }
 
 int menubodegas() {
-
+   
+  // FILE *ficherodemovimiento = NULL;
+   
    int loopexit = 0;
    int choice;
-   limipiarbuffer();
+   limpiarbuffer();
   
    while (loopexit != 1)
    {
-     limipiarbuffer();
+     cleanscreen();
+     limpiarbuffer();
      printf("Digite opcion\n");
-     printf(" 1. ver cant \n 2. mover productos entre sucursales \n");
+     printf(" 1. ver cant \n 2. mover productos entre sucursales \n 3. SAlir \n");
      scanf("%d",&choice);
      
-     limipiarbuffer();
+     limpiarbuffer();
      switch (choice)
      {
      case 1:
@@ -93,8 +91,12 @@ int menubodegas() {
 
     case 2:
         printf("Mover productos\n");
-        movercantidades();
+        transferencia_interna_prods();
 
+        break;
+
+    case 3:
+      loopexit =1;
         break;
      
      default:

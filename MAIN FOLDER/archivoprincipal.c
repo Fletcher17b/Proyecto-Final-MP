@@ -5,6 +5,7 @@
 #include<stdbool.h>
 #include"FuncionesMario.h"
 #include"FuncionesDavid.h"
+#include"FuncionesClaudia.h"
 #include"archivodeestructuras.h"
 #include"archivodefunciones.h"
 
@@ -61,7 +62,7 @@ int main(){
   {
     system("cls");
     printf("Bienvenido a \n Usted dispone de las siguientes opciones: \n");
-    printf("1. Gestion de inventario \n 2. Facturar productos\n 4. Salir del programa\n");
+    printf(" 1. Gestion de inventario \n 2. Facturar productos\n 4. Salir del programa\n");
     scanf("%d",&opcion);
     limpiarbuffer();
 
@@ -71,7 +72,7 @@ int main(){
         gestion_inv();
         break;
     case 2:
-        /* code */
+        menu_fac();
         break;
 
     case 4:

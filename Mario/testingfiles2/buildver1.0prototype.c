@@ -3,8 +3,9 @@
 #include<dos.h>
 #include<stdlib.h>
 #include<stdbool.h>
+#include<time.h>
 
-void limipiarbuffer() {
+void limpiarbuffer() {
     fflush(stdin);
     fflush(stdout);
 }
@@ -38,30 +39,30 @@ struct product_template get_info() {
     struct product_template input;
       printf("\nIngrese ID del producto (maximo 10 caracteres, no se debe repetir) ");
       gets(input.prodID);
-      limipiarbuffer(); 
+      limpiarbuffer(); 
       
       printf("\nIngrese nombre: ");
       scanf("%s",input.nombre);
-      limipiarbuffer();
+      limpiarbuffer();
 
       printf("\nIngrese precio: ");
       scanf("%f",&input.priceunit);
-      limipiarbuffer();
+      limpiarbuffer();
 
       printf("\nIngrese una breve descripcion del producto: ");
       scanf("%s",input.descripcion);
-      limipiarbuffer();
+      limpiarbuffer();
       
      int cant_centralverifier = 0;
      
       
       printf("\nIngrese la cantidad central: ");
       cant_centralverifier = scanf("%d",&input.sub.cantidad_en_centra);
-      limipiarbuffer();
+      limpiarbuffer();
       while (cant_centralverifier == 0) {
           printf("\n invalid input, ingrese valor otra vez\n");
           cant_centralverifier = scanf("%d",&input.sub.cantidad_en_centra);
-          limipiarbuffer();
+          limpiarbuffer();
       }
 
       int cantidades_conduerdan = 0;
@@ -69,19 +70,19 @@ struct product_template get_info() {
       while (cantidades_conduerdan != 1 ) {
         printf("\nIngrese la cantidad en sucursal 1: ");
         scanf("%d",&input.sub.cantidad_en_sucursal_1);
-        limipiarbuffer();
+        limpiarbuffer();
 
         printf("\nIngrese la cantidad sucursal 2: ");
         scanf("%d",&input.sub.cantidad_en_sucursal_2);
-        limipiarbuffer();
+        limpiarbuffer();
 
         printf("\nIngrese la cantidad sucursal 3: ");
         scanf("%d",&input.sub.cantidad_en_sucursal_3);
-        limipiarbuffer();
+        limpiarbuffer();
 
         printf("\nIngrese la cantidad sucursal 4: ");
         scanf("%d",&input.sub.cantidad_en_sucursal_4);
-        limipiarbuffer();
+        limpiarbuffer();
         
         int suma = input.sub.cantidad_en_sucursal_1 + input.sub.cantidad_en_sucursal_2 + input.sub.cantidad_en_sucursal_3 + input.sub.cantidad_en_sucursal_4;
         if (suma != input.sub.cantidad_en_centra) {
@@ -97,30 +98,14 @@ struct product_template get_info() {
 
 int agregarprod(FILE *fileused_a) {
 
-  limipiarbuffer();
+  limpiarbuffer();
 
-  int prod_input_num = 0;
   struct product_template structtemp;
   int guardadobien = 0;
 
-  fileused_a = fopen("masterfile.txt","r");
-  
-  if (fileused_a == NULL) {
-    printf("nel pastel \n");
-    fclose(fileused_a);
-  } else {
-    printf("dele \n");
-    fclose(fileused_a);
-    
-    printf("cuantos productos desea ingresar? \n");
-    scanf("%d", &prod_input_num);
+   fileused_a = fopen("master.txt","a");
 
-    for (int counter1 = 1; counter1 <= prod_input_num; counter1++) 
-    {
-
-      fileused_a = fopen("masterfile.txt","a");
-        
-      limipiarbuffer();
+      limpiarbuffer();
       structtemp = get_info();
       guardadobien = fwrite(&structtemp, sizeof(struct product_template),1, fileused_a );
 
@@ -130,35 +115,25 @@ int agregarprod(FILE *fileused_a) {
        {
         printf("nel perro \n");
        }
-        
-        fclose(fileused_a);
-        
 
-    }
-
-
-
-
-  }
-  
-  //fclose(fileused_a);
-
-  
-  
+    fclose(fileused_a);
   return 0;
 }
+
+char banana[20];
+
 
 
 int modifyprods(FILE *fileused_b) { 
 
- limipiarbuffer(); 
+ limpiarbuffer(); 
  
  char IDseeker[10];
  bool found = false;
  FILE *temporal;
  struct product_template temp_b;
  
- fileused_b = fopen("masterfile.txt","r");
+ fileused_b = fopen("master.txt","r");
  temporal = fopen("temporal.txt","a+");
  
  printf("Ingrese el ID del producto que desea modificar: ");
@@ -168,7 +143,7 @@ int modifyprods(FILE *fileused_b) {
  while(!feof(fileused_b)) {
   if(!strcmp(IDseeker, temp_b.prodID)) {
     found = true;
-    limipiarbuffer();
+    limpiarbuffer();
     int loopexit1 = 0;
     int valuetochange = 0; 
 
@@ -182,14 +157,14 @@ int modifyprods(FILE *fileused_b) {
        printf("Ingrese valor que quiere actualizar: \n 1. precio \n 7. Salir \n ");
        scanf("%d", &valuetochange);
        printf("\n");
-       limipiarbuffer();
+       limpiarbuffer();
 
        switch (valuetochange)
        {
        case 1:
         printf("Usted ha elejido modificar el precio \n");
         scanf("%f", &temp_b.priceunit);
-        limipiarbuffer();
+        limpiarbuffer();
         break;
 
        case 7:
@@ -199,7 +174,7 @@ int modifyprods(FILE *fileused_b) {
        default:
         break;
        }
-    limipiarbuffer();
+    limpiarbuffer();
       
     }
     fwrite(&temp_b, sizeof(struct product_template), 1, temporal);
@@ -219,11 +194,17 @@ int modifyprods(FILE *fileused_b) {
 
  fclose(temporal);
  fclose(fileused_b);
+
+ fileused_b = fopen("master.txt","r");
+ temporal = fopen("temporal.txt","a+");
+
+ fclose(temporal);
+ fclose(fileused_b);
  int borrado;
- borrado = remove("masterfile.txt");
+ borrado = remove("master.txt");
     if(borrado==0)
     {
-        rename("temporal.txt", "masterfile.txt");
+        rename("temporal.txt", "master.txt");
     }
 
   return 0;
@@ -232,14 +213,14 @@ int modifyprods(FILE *fileused_b) {
 
 int removeprod(FILE *fileused_c) {
 
-  limipiarbuffer();
+  limpiarbuffer();
 
  char IDseeker[10];
  bool found = false;
  FILE *temporal;
  struct product_template temp_c;
 
- fileused_c = fopen("masterfile.txt","r");
+ fileused_c = fopen("master.txt","r");
  temporal = fopen("temporal.txt","a+");
  printf("\n\n");
  gets(IDseeker);
@@ -249,7 +230,7 @@ int removeprod(FILE *fileused_c) {
 
      if(!strcmp(IDseeker, temp_c.prodID)) {
     found = true;
-    limipiarbuffer(); 
+    limpiarbuffer(); 
     int choice;
       
       printf("\nNombre: %s \n", temp_c.nombre);
@@ -282,10 +263,10 @@ if (found == false) {
  fclose(temporal);
  fclose(fileused_c);
  int borrado;
- borrado = remove("masterfile.txt");
+ borrado = remove("master.txt");
     if(borrado==0)
     {
-        rename("temporal.txt", "masterfile.txt");
+        rename("temporal.txt", "master.txt");
     }
 
 
@@ -294,13 +275,25 @@ if (found == false) {
 
 int factura(FILE *fileused_d) {
 
-  limipiarbuffer();
+  limpiarbuffer();
   cleanscreen();
 
  FILE *temporal;
  struct product_template temp_c;
+
+ FILE *factura;
+
+printf("A nombre de quien wey?");
+char queguey[40];
+gets(queguey);
+
+char factsting[20] = "factura.txt";
+
+strcat(queguey,factsting);
+
+ factura = fopen(queguey,"w");
  
- fileused_d = fopen("masterfile.txt","r");
+ fileused_d = fopen("master.txt","r");
  temporal = fopen("temporal.txt","a+");
 
 
@@ -329,7 +322,7 @@ int factura(FILE *fileused_d) {
 while(!feof(fileused_d)) {
   if(!strcmp(IDseeker, temp_c.prodID)) {
     found = true;
-    limipiarbuffer();
+    limpiarbuffer();
     
     printf("Nombre: %s \n", temp_c.nombre);
     printf("Precio individual: %.2f \n", temp_c.priceunit);
@@ -337,7 +330,7 @@ while(!feof(fileused_d)) {
 
     printf("Digite la cantidad que desea extraer \n");
     while (loopexit2 != 1) {
-       limipiarbuffer();
+       limpiarbuffer();
       scanfvalidation = scanf("%d",&cantextract);
 
       if (scanfvalidation == 0) { 
@@ -348,13 +341,13 @@ while(!feof(fileused_d)) {
 
     }
     
-     limipiarbuffer();
+     limpiarbuffer();
     printf("Seleccione la sucursal donde se realizara el tramite \n ");
    
    while (loopexit1 != 1) {
-    limipiarbuffer();
+    limpiarbuffer();
     scanf("%d",&sucursal);
-    limipiarbuffer();
+    limpiarbuffer();
     switch (sucursal)
     {
     case 0:
@@ -363,13 +356,13 @@ while(!feof(fileused_d)) {
       break;
 
     case 1:
-      limipiarbuffer();
+      limpiarbuffer();
       if (cantextract == 0) {printf("Cantidad no puede ser igual a 0 \n");}
       if (cantextract < 0) {printf("cantidad invalida\n");}
       if (cantextract > temp_c.sub.cantidad_en_sucursal_1) {
         printf("La cantidad deseada excede las existencias, productos disponibles: %d \n", temp_c.sub.cantidad_en_sucursal_1);
         printf("Digite denuevo: ");
-        limipiarbuffer();
+        limpiarbuffer();
       } else {
         result = cantextract*temp_c.priceunit;
         printf("El costo por %d unidades del item %s es de %.2f \n", cantextract, temp_c.prodID, result);
@@ -379,13 +372,13 @@ while(!feof(fileused_d)) {
       break;
 
     case 2:
-      limipiarbuffer();
+      limpiarbuffer();
       if (cantextract == 0) {printf("Cantidad no puede ser igual a 0 \n");}
       if (cantextract < 0) {printf("cantidad invalida\n");}
       if (cantextract > temp_c.sub.cantidad_en_sucursal_2) {
         printf("La cantidad deseada excede las existencias, productos disponibles: %d \n", temp_c.sub.cantidad_en_sucursal_2);
         printf("Digite denuevo: ");
-        limipiarbuffer();
+        limpiarbuffer();
       } else {
         result = cantextract*temp_c.priceunit;
         printf("El costo por %d unidades del item %s es de %.2f \n", cantextract, temp_c.prodID, result);
@@ -395,13 +388,13 @@ while(!feof(fileused_d)) {
       break;
 
     case 3:
-      limipiarbuffer();
+      limpiarbuffer();
       if (cantextract == 0) {printf("Cantidad no puede ser igual a 0 \n");}
       if (cantextract < 0) {printf("cantidad invalida\n");}
       if (cantextract > temp_c.sub.cantidad_en_sucursal_3) {
         printf("La cantidad deseada excede las existencias, productos disponibles: %d \n", temp_c.sub.cantidad_en_sucursal_3);
         printf("Digite denuevo: ");
-        limipiarbuffer();
+        limpiarbuffer();
       } else {
         result = cantextract*temp_c.priceunit;
         printf("El costo por %d unidades del item %s es de %.2f \n", cantextract, temp_c.prodID, result);
@@ -411,13 +404,13 @@ while(!feof(fileused_d)) {
       break;
 
     case 4:
-      limipiarbuffer();
+      limpiarbuffer();
       if (cantextract == 0) {printf("Cantidad no puede ser igual a 0 \n");}
       if (cantextract < 0) {printf("cantidad invalida\n");}
       if (cantextract > temp_c.sub.cantidad_en_sucursal_4) {
         printf("La cantidad deseada excede las existencias, productos disponibles: %d \n", temp_c.sub.cantidad_en_sucursal_4);
         printf("Digite denuevo: ");
-        limipiarbuffer();
+        limpiarbuffer();
       } else {
         result = cantextract*temp_c.priceunit;
         printf("El costo por %d unidades del item %s es de %.2f \n", cantextract, temp_c.prodID, result);
@@ -454,23 +447,23 @@ while(!feof(fileused_d)) {
  fclose(temporal);
  fclose(fileused_d);
  int borrado;
- borrado = remove("masterfile.txt");
+ borrado = remove("master.txt");
     if(borrado==0)
     {
-        rename("temporal.txt", "masterfile.txt");
+        rename("temporal.txt", "master.txt");
     }
   return 0;
 }
 
 int comprob(FILE *fileused_0) {
-  limipiarbuffer();
+  limpiarbuffer();
   cleanscreen();
 
   struct product_template temp_0;
 
   printf("\n comprob \n");
 
-  fileused_0 = fopen("masterfile.txt","r");
+  fileused_0 = fopen("master.txt","r");
   fread(&temp_0, sizeof(struct product_template),1, fileused_0);
   char IDseeker[10];
   int exit;
@@ -479,7 +472,7 @@ int comprob(FILE *fileused_0) {
   while(!feof(fileused_0) && exit != 1) {
 
   if(!strcmp(IDseeker, temp_0.prodID)) { 
-    limipiarbuffer();
+    limpiarbuffer();
     printf("\nNombre: %s \n", temp_0.nombre);
     printf("Precio: %.2f \n", temp_0.priceunit);
     printf("Descripcion: %s \n", temp_0.descripcion);
@@ -506,12 +499,12 @@ void menudef() {
 
    while (loopexit != 1) {
       cleanscreen();
-      limipiarbuffer();
+      limpiarbuffer();
       int opcdef = 0;
 
       printf("Sus opciones son las siguiente: \n 1. Agregar producto \n 2. Modificar producto \n 3. remover producto \n 4. Facturar/retirar producto \n 5. NULL \n 6. ver prod \n 7. Salir\n");
       scanf("%d",&opcdef);
-      limipiarbuffer();
+      limpiarbuffer();
       switch(opcdef) {
         case 1:
           agregarprod(fileused); 
