@@ -20,6 +20,7 @@ void registroCliente() {
 
     printf("Ingrese su numero de cedula: ");
     scanf("%d", &nuevoCliente.cedula);
+    
     getchar();
     
     char nombreArchivo[100];
@@ -51,7 +52,7 @@ int buscarArchivo(const char* nombreArchivo) {
 
 void borrarArchivo() {
     char nombreArchivo[100];
-    printf("Ingrese el nombre del archivo a borrar: ");
+    printf("Ingrese su nombre de usuario (agregue .txt): ");
     scanf("%s", nombreArchivo);
     
     FILE* archivo = fopen(nombreArchivo, "r");
@@ -71,6 +72,7 @@ void borrarArchivo() {
         printf("No se pudo eliminar el archivo.\n");
     }
 }
+
 
 
 
