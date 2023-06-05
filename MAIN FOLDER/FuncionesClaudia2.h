@@ -80,7 +80,7 @@ ficheromod = fopen("Master.txt","r");
                  printf("cantidad excede existencias, digite denuevo: ");
                  scanf("%d", &cantextract2);
             }
-            temp_c.sub.sucursal_1 = temp_c.sub.sucursal_1 - cantextract2; 
+            
             break;
 
             case 2:
@@ -88,7 +88,7 @@ ficheromod = fopen("Master.txt","r");
                  printf("cantidad excede existencias, digite denuevo: ");
                  scanf("%d", &cantextract2);
             }
-            temp_c.sub.sucursal_2 = temp_c.sub.sucursal_2 - cantextract2; 
+             
             break;
 
             case 3:
@@ -96,7 +96,7 @@ ficheromod = fopen("Master.txt","r");
                  printf("cantidad excede existencias, digite denuevo: ");
                  scanf("%d", &cantextract2);
             }
-            temp_c.sub.sucursal_3 = temp_c.sub.sucursal_3 - cantextract2; 
+            
             break;
 
             case 4:
@@ -104,7 +104,7 @@ ficheromod = fopen("Master.txt","r");
                  printf("cantidad excede existencias, digite denuevo: ");
                  scanf("%d", &cantextract2);
             }
-            temp_c.sub.sucursal_4 = temp_c.sub.sucursal_4 - cantextract2; 
+           
             break;
           
           default:
