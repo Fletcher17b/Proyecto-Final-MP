@@ -1,3 +1,5 @@
+#pragma once
+#include"archivodeestructuras.h"
 #include"archivodefunciones.h"
 #include<stdio.h>
 #include<string.h>
@@ -6,62 +8,7 @@
 #include<stdbool.h>
 
 
-void info_fact (FILE *factura) {
-    factura = fopen("Factura.txt","r");
 
-    if(factura==NULL){
-        printf("Error, la factura no ha sido creada! \n");
-         
-    }
-    else
-    {
-    
-     struct fact_enc enc;
-    time_t fecha;
-    int num=0;
-    time(&fecha);
-
-    printf("\n****************Factura Encabezado**************\n");
-    printf("\nIngrese ID de la factura ");
-    gets(enc.IDfact);
-    limpiarbuffer(); 
-       
-    printf("\nIngrese ID de la organización: ");
-    gets(enc.IDorg );
-    limpiarbuffer(); 
-      
-    printf("\n Fecha : ");
-    printf("%s\n", ctime(&fecha));
-    limpiarbuffer(); 
-
-    num++;
-    printf("\n Numero de factura %d",num);
-    printf( ": \n");
-    limpiarbuffer(); 
-
-    printf("\n Estimado usuario, digite numero de serie (Ingrese letra ) : ");
-    gets(enc.numser);
-    limpiarbuffer();
-
-    printf("\n Atendido por : ");
-    gets(enc.cajero);
-    limpiarbuffer();
-
-    printf("\n*************Factura Detalle**************\n");
-    printf("\nIngrese ID de la factura: ");
-    gets(enc.detalle.ID_fact);
-    limpiarbuffer();
-    printf("\nNumero de Factura: %d",num);
-    limpiarbuffer(); 
-    printf("\nIngrese Unidad de medida del producto: ");
-    gets(enc.detalle.U_medid);
-    limpiarbuffer();
-    }
-
-
-   fclose(factura);
-    return 0;
-}
 
 
 int consultaensucursal() {
@@ -76,13 +23,13 @@ int consultaensucursal() {
 ficheromod = fopen("Master.txt","r");
   temporal = fopen("temp.txt","w+");
 
-
+//Validacion 
  if (ficheromod == NULL || temporal == NULL) {
         printf("Error al abrir fichero \n");
         return 1;
     }
 
-
+//Proceso principal
   limpiarbuffer();
   printf("Ingrese la ID del producto a comprar\n");
   gets(IDseeker);
@@ -97,7 +44,7 @@ ficheromod = fopen("Master.txt","r");
      if (!strcmp(temp_c.prodID, IDseeker)) {
           limpiarbuffer(); 
                 printf("----------------------------\n");
-                printf("-----------------\n");
+                printf("--------- Productos --------\n");
                 printf("----------------------------\n");
                 
                 limpiarbuffer();
@@ -192,35 +139,9 @@ ficheromod = fopen("Master.txt","r");
           case 1:
 
      printf("Imprimir ");
-     info_fact();
+     info_fac();
 
-     rewind(ficheromod);
-   while (fread(&temp_c, sizeof(struct Productos), 1, ficheromod) == 1) {
-     
-     if (!strcmp(temp_c.prodID, IDseeker)) {
-          limpiarbuffer(); 
-                printf("----------------------------\n");
-                printf("-----------------\n");
-                printf("----------------------------\n");
-                
-                limpiarbuffer();
-                printf("ID: %s ", temp_c.prodID);    
-                saltoLinea(); 
-                printf("Nombre: %s ", temp_c.nombre);    
-                saltoLinea(); 
-                printf("Tipo: %s ", temp_c.Tipo);    
-                saltoLinea(); 
-                printf("Precio: %2.f ", temp_c.price);    
-                saltoLinea(); 
-                printf("Descripcion: %s ", temp_c.descripcion);    
-                saltoLinea();
-     subtotal=cantextract2*temp_c.price;
-     printf("Subtotal: %2.f ", subtotal);    
-     saltoLinea(); 
-     total=subtotal*IVA;
-     printf("Total: %2.f ", total);    
-     saltoLinea();
-     limpiarbuffer(); 
+                 
   break;
 
   case 2:
@@ -228,6 +149,10 @@ ficheromod = fopen("Master.txt","r");
   }
           
      }
+
+  
+
+
           fwrite(&temp_c, sizeof(struct Productos), 1, temporal);
 
      } else {
@@ -237,8 +162,6 @@ ficheromod = fopen("Master.txt","r");
    }
 }
 
-}
-}
 
 
 
