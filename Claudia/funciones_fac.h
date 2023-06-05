@@ -2,9 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include<math.h>
-#include"struc.h"
+#include<stdbool.h>
 #include<time.h>
-
 
 // limpia buffer
 void limpiarbuffer(){
@@ -61,13 +60,6 @@ struct fact_enc {
    float total;
 
    struct fact_detalle detalle;
-};
-
-struct Cliente {
-    char nombre[50];
-    char direccion[100];
-    int telefono;
-    int telefono[20];
 };
 
 
@@ -139,7 +131,7 @@ int agregarprod(FILE *fileused_a) {
   limpiarbuffer();
 
   int prod_input_num = 0;
-  struct product_template structtemp;
+  struct product_template prod;
   int guardadobien = 0;
 
   fileused_a = fopen("masterfile.txt","r");
@@ -160,8 +152,8 @@ int agregarprod(FILE *fileused_a) {
       fileused_a = fopen("masterfile.txt","a");
         
       limpiarbuffer();
-      structtemp = get_info();
-      guardadobien = fwrite(&structtemp, sizeof(struct product_template),1, fileused_a );
+      prod = get_info();
+      guardadobien = fwrite(&prod, sizeof(struct product_template),1, fileused_a );
 
       if (guardadobien >0) {
        printf("todo chingon\n");
@@ -182,7 +174,7 @@ int agregarprod(FILE *fileused_a) {
 
 //ver producto
 
-int ver_producto(FILE *fileVProducto, struct product_template prod)
+int ver_producto(FILE *fileVProducto)
 {
     FILE *temporal;
  struct product_template prod;
@@ -204,12 +196,13 @@ int ver_producto(FILE *fileVProducto, struct product_template prod)
      printf("%s \n", ver, prod.descripcion);
      fread(&prod, sizeof(struct product_template), 1, fileVProducto);
     }
-  
+  fclose(fileVProducto);
+  return 0;
 }
 
 
 // retirar producto 
-int retirar_producto(FILE *fileProducto, struct product_template prod)
+int retirar_producto(FILE *fileProducto)
 {
     FILE *temporal;
  struct product_template prod;
@@ -219,7 +212,6 @@ int retirar_producto(FILE *fileProducto, struct product_template prod)
     int buscar=0;
     int sucursal=0;
     int ext_cant=0;
-    
     char ID[10];
     
     printf("**********Retirar producto***********\n");
@@ -265,46 +257,14 @@ int retirar_producto(FILE *fileProducto, struct product_template prod)
    scanf("%d", &opcfact);
    if (opcfact==1)
    {
-    print_factura(FILE *fileFactura);
+    print_factura(fileFactura);}
+  }
 
-   }
-   
-
-
-
-
-
-
-}
-  
+  fclose(fileProducto);
+  return 0;
 }
 
 
-struct fact_detalle {
-  char ID_fact[10];
-  char U_medid[10];
- char prodID[10];  
- int tipo;
- char Tipo[25];
- char nombre[50];
- float price;
- char descripcion[200];
- float subtotal1;
- 
-};
-
-struct fact_enc {
-   char IDfact[10];
-   char IDorg[10];
-   char numser[10];
-   char cajero[20];
-   char IDcliente;
-   float subtotal;
-   float iva;
-   float total;
-
-   struct fact_detalle detalle;
-};
 
 struct fact_enc info_fact() {
     struct fact_enc enc;
@@ -344,6 +304,10 @@ struct fact_enc info_fact() {
     fread(&temp_b, sizeof(struct product_template),1, fileused_b);
 
     printf("\n*************Factura Detalle**************\n");
+    printf("\n**********Franchyeska Accessories************\n");
+    printf("\n**********Tienda de accesorios************\n");
+    printf("\nIngrese ID de la factura: ");
+    printf("\nIngrese ID de la factura: ");
     printf("\nIngrese ID de la factura: ");
     gets(enc.detalle.ID_fact);
     limpiarbuffer();
@@ -414,7 +378,7 @@ int menu_fac()
     {
     case 1:
     printf("Usted ha ingresado a Buscar producto \n");
-    ver_producto();
+    ver_producto(FILE*fileVProducto);
     limpiarbuffer();
     screenclean();
       break;
@@ -435,4 +399,68 @@ int menu_fac()
 
 
     return opcion;
+}
+
+
+
+void registroCliente() {
+    struct Cliente nuevoCliente;
+    printf("Ingrese su nombre de usuario: ");
+    scanf("%s", nuevoCliente.nombre);
+
+    printf("Ingrese su direccion: ");
+    scanf("%s", nuevoCliente.direccion);
+
+    getchar();
+
+    printf("Ingrese su numero: ");
+    scanf("%d", &nuevoCliente.telefono);
+
+    printf("Ingrese su numero de cedula: ");
+    scanf("%d", &nuevoCliente.cedula);
+    getchar();
+    
+    char nombreArchivo[100];
+    snprintf(nombreArchivo, sizeof(nombreArchivo), "%s.txt", nuevoCliente.nombre);
+
+    FILE *file;
+    file = fopen(nombreArchivo, "a");
+    if (file == NULL) {
+        printf("Error al crear el archivo.\n");
+        exit(1);
+    }
+
+    fwrite(&nuevoCliente, sizeof(struct Cliente), 1, file);
+    fclose(file);
+}
+
+struct Cliente {
+    char nombre[50];
+    char direccion[100];
+    int telefono[20];
+    char cedula[30];
+};
+
+
+
+void BuscarCliente(FILE *file, struct Cliente nuevoCliente)
+{
+    char cedula[30]; 
+    int buscar=0;
+    limpiarBuffer();
+    printf("Digite el codigo del producto:\n");
+    scanf("%s", &cedula);
+    rewind(file);
+    fread(&nuevoCliente, sizeof(struct Cliente), 1, file);
+    while (!feof(file))
+    {
+        if(!strcmp(cedula, )){
+        buscar=true;
+        limpiarbuffer();
+        printf("Nombre: %s \n", nuevoCliente.nombre);
+        printf("Dirección: %.2f \n", nuevoCliente.direccion);
+        printf("Descripcion: %s \n", nuevoCliente.);
+        }
+    }
+    return 0;
 }
