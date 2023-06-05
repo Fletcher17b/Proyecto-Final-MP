@@ -26,7 +26,8 @@ struct proveedores //David
 {
 
     char NameProv[60];
-    char productprovID[30];
+    char productop[30];
+    char provID[30];
 
 };
 

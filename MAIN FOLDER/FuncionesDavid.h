@@ -11,45 +11,163 @@
 
 void datoscompra(FILE *Datos, struct Productos pr ) 
 {
-   int dat= 0; 
-   struct proveedoresFich temp;
+   int Control=0;
+   int datas= 0;  
 
    Datos = fopen("masterDC.txt", "a");
       if(Datos==NULL){
         printf("Error, el fichero no ha sido creado! \n");
+    } else {
+        printf("***** Datos de compra *****\n");
+        printf("* Ingrese - 1 - si desea añadir datos de compra *\n");
+        printf("* Ingrese - 0 - si NO desea añadir datos de compra *\n");
+        scanf("%d", &datas); 
+        if (datas==1)
+        {
+            limpiarbuffer(); 
+
+            printf("Ingrese ID: "); 
+            gets(pr.prov.provID);
+            limpiarbuffer();
+            saltoLinea();
+
+            printf("Nombre del proovedor: ");    
+            gets(pr.prov.NameProv); 
+            saltoLinea(); 
+            limpiarbuffer();
+
+            printf("Producto: ");    
+            gets(pr.prov.productop); 
+            saltoLinea(); 
+            limpiarbuffer();
+
+            Control=fwrite(&pr, sizeof(struct Productos), 1, Datos);
+            if(Control>0){
+                printf("\nLos datos del producto han sido guardados con exito! \n");
+            }
+            else{
+                printf("\nERROR: intente nuevamente, si el error persiste contacte con el Administrador del Sistema... \n");
+            }
+        }
+        else
+        {
+            printf("Regresando al menu principal, espere un momento \n");
+            system("cls"); 
+            limpiarbuffer(); 
+        
+            
+        }
+        
     }
 
-        printf("************* Datos de compra *************\n");
-        printf("*** Ingrese - 1 - si desea añadir datos de compra ***\n");
-        printf("*** Ingrese - 0 - si NO desea añadir datos de compra ***\n");
-        scanf("%d", &dat); 
-        if (dat==1)
-        {
-           limpiarbuffer();
-           strcpy(temp.productprovID, pr.prodID);
-           limpiarbuffer();
-           printf("Ingrese ID del proveedor (No se puede repetir) \n");
-           gets(temp.proveedorID);
-           limpiarbuffer();
-           temp.aSucursalCentral = pr.sub.SucursalCentral;
-           temp.asucursal_1 = pr.sub.sucursal_1;
-           temp.asucursal_2 =pr.sub.sucursal_2;
-           temp.asucursal_3 =pr.sub.sucursal_3;
-           temp.asucursal_4 = pr.sub.sucursal_4;
 
-        int control2 = 0;    
-        control2 = fwrite(&pr, sizeof(struct Productos), 1, Datos);
-           if(control2>0){
-            printf("\nLos datos del proveedor han sido guardados con exito! \n");
-           }
-           else{
-            printf("\nERROR: intente nuevamente, si el error persiste contacte con el Administrador del Sistema... \n");
-           }
-        
-        } 
-    fclose(Datos);    
 }
 
+void Proveedores(FILE *Datos, struct Productos pr)
+{
+    int contador; 
+    char provID[30];   
+    Datos = fopen("MasterDC.txt", "r");
+    if(Datos==NULL){
+        printf("Error, el fichero no existe \n");
+         
+    } 
+    struct Productos proveedores; 
+    int opc=0;
+    limpiarbuffer(); 
+    printf("Digite - 1 - para ver todos los proveedores \n"); 
+    printf("Digite - 2 - para ver un proveedor especifico\n");
+    scanf("%d", &opc); 
+    limpiarbuffer(); 
+
+
+    switch (opc)
+    {
+    case 1:
+        limpiarbuffer(); 
+        saltoLinea(); 
+        system("cls"); 
+        contador= 0; 
+
+        fread(&pr, sizeof(struct Productos), 1, Datos);
+        while (!feof(Datos))
+        {
+            contador++; 
+            limpiarbuffer(); 
+
+            printf("ID: %s", pr.prov.provID); 
+                saltoLinea();
+                
+            printf("Nombre del proovedor: %s", pr.prov.NameProv);    
+            saltoLinea(); 
+            limpiarbuffer();
+
+             
+
+            printf("Producto: %s",pr.prov.productop );   
+            saltoLinea(); 
+            limpiarbuffer();
+            fread(&pr, sizeof(struct Productos), 1, Datos);
+
+
+        }
+        break;
+
+    case 2:
+        limpiarbuffer(); 
+        saltoLinea(); 
+        int find = 0; 
+        printf ("Digite el numero de codigo ID que desea buscar: ");
+        scanf("%s", provID);
+        rewind(Datos); 
+        fread(&pr, sizeof(struct Productos), 1, Datos);
+        while(!feof(Datos))
+        {
+            if(!strcmp(provID, pr.prov.provID))
+            {
+                find=1; 
+                limpiarbuffer(); 
+                printf("----------------------------\n");
+                printf("--------- Proveedores --------\n");
+                printf("----------------------------\n");
+
+                printf("ID: %s", pr.prov.provID); 
+                saltoLinea(); 
+
+                limpiarbuffer();
+                printf("Nombre del proveedor: %s", pr.prov.NameProv); 
+                saltoLinea(); 
+
+                
+
+                printf("Nombre del proveedor: %s", pr.prov.productop);
+                saltoLinea(); 
+                /*
+                printf("Cantidad del producto: %s", pr.prov.cantprov); 
+                saltoLinea(); 
+                break;*/
+
+            }
+            fread(&pr, sizeof(struct Productos), 1, Datos);
+        if (find!=1)
+        {
+             printf("Ingrese un nombre de proveedor valido e intente nuevamente! \n");
+        }
+        
+
+        }
+
+
+        break;
+    
+    default:
+        break;
+    }
+
+     
+
+
+}
 
 void subAgregarProd(FILE *Franchyeska, struct Productos pr, FILE *Datos){
     
@@ -141,6 +259,91 @@ void subAgregarProd(FILE *Franchyeska, struct Productos pr, FILE *Datos){
 
 }
 
+void ModificarProd(FILE *Franchyeska, struct Productos pr)
+{
+    limpiarbuffer(); 
+    char IDseeker[20];
+    bool found = false;
+    FILE *temporal;
+    Franchyeska = fopen("Master.txt","r");
+    temporal = fopen("temporal.txt","a+");
+
+    printf("Ingrese el ID del producto que desea modificar: ");
+    scanf("%s", IDseeker); 
+    while(!feof(Franchyeska))
+    {
+        if(!strcmp(IDseeker, pr.prodID)) 
+        {
+        found = true;
+        limpiarbuffer();
+        int opmod = 0;
+        limpiarbuffer(); 
+    
+        printf("ID: %s \n ", pr.prodID); 
+        printf("Tipo del producto: %s \n", pr.Tipo); 
+        printf("Precio: %f \n", pr.price); 
+        printf("Descripcion: %s \n", pr.descripcion); 
+        printf("Cantidad en sucursal central: %d \n", pr.sub.SucursalCentral); 
+        printf("Cantidad en sucursal 1: %d \n", pr.sub.sucursal_1); 
+        printf("Cantidad en sucursal 2: %d \n", pr.sub.sucursal_2);
+        printf("Cantidad en sucursal 3: %d \n", pr.sub.sucursal_3);
+        printf("Cantidad en sucursal 4: %d \n", pr.sub.sucursal_4);
+        fread(&pr, sizeof(struct Productos), 1, Franchyeska);
+
+        printf("Datos que puede editar\n");
+        printf("Digite - 1 - para modificar el nombre\n");
+        printf("Digite - 2 - para modificar el precio\n");
+        printf("Digite - 3 - para modificar la descripcion\n");
+        printf("Ingrese una opcion: ");
+        scanf("%d", &opmod);
+
+        switch (opmod)
+        {
+            case 1:
+                printf("\n Ingrese el nuevo nombre: ");
+                gets(pr.nombre); 
+                limpiarbuffer(); 
+                saltoLinea(); 
+                break;
+            case 2:
+                printf("\n Ingrese el nuevo precio: ");
+                scanf("%f", &pr.price);
+                limpiarbuffer();
+                saltoLinea(); 
+                break;
+
+            case 3:
+                printf("\n Ingrese la nueva descripcion: ");
+                gets(pr.descripcion); 
+                limpiarbuffer();
+                saltoLinea(); 
+                break;
+            
+            default:
+                printf("Estimado Usuario, por favor ingrese una opcion valida! \n");  
+                limpiarbuffer(); 
+                saltoLinea();
+                break;
+        }
+        fwrite(&pr, sizeof(struct Productos), 1, temporal);
+        printf("Producto actualizado con exito! \n");
+        }
+        else
+        {
+            fwrite(&pr, sizeof(struct Productos), 1, temporal);
+        }
+        fread(&pr, sizeof(struct Productos), 1, temporal);
+
+        if(found==false)
+        {
+        printf("Producto inexistente\n");
+        }
+
+
+        
+    }
+
+}
 
 int PrincipFunc_Agregar(FILE *Franchyeska,FILE *dat){
 

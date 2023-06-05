@@ -5,7 +5,7 @@
 #include<stdbool.h>
 #include"FuncionesMario.h"
 #include"FuncionesDavid.h"
-#include"FuncionesClaudia.h"
+//#include"FuncionesClaudia.h"
 #include"FuncionesArmando.h"
 #include"archivodeestructuras.h"
 #include"archivodefunciones.h"
@@ -16,13 +16,16 @@ cleanscreen();
 
 FILE *Franchyeska = NULL;
 FILE *Dat=NULL; 
+struct Productos pr; 
+
 
 int segurodeeliminacion=0;
 int bandera =0;
 int eleccion = 0;
 while (bandera != 1) 
  {
-printf("\n Menu de inventario \n 1. Agregar Productos\n 2. Eliminar producto \n 3. Trasladar productos entre sucursales\n 4. Menu de visulisacion de Productos \n 5. Volver\n");
+cleanscreen();
+printf("\n Menu de inventario \n 1. Agregar Productos\n 2. Eliminar producto \n 3. Trasladar productos entre sucursales\n 4. Menu de visualizacion de Productos \n 5. Ver proveedores\n 6. Salir\n");
 scanf("%d",&eleccion);
 switch (eleccion)
      {
@@ -49,12 +52,17 @@ case 4:
     visualizarProductos(Franchyeska);
     cleanscreen();
     break;
-
 case 5:
+   Proveedores(Dat,pr);
+   break;
+
+case 6:
     bandera =1;
     cleanscreen();
     
     break;
+
+
 
 default:
     printf("opcion invalida\n");
@@ -99,14 +107,14 @@ void clientes() {
             break;
             cleanscreen();
             }
-            
+
 }
 
 int main(){
   int loopexit=0;
   int opcion;
 
-    franchyeska_inicio();
+  franchyeska_inicio();
 
   clientes();
 
@@ -114,7 +122,7 @@ int main(){
   while (loopexit!=1)
   {
     system("cls");
-    printf("Bienvenido a \n Usted dispone de las siguientes opciones: \n");
+    printf(" Usted dispone de las siguientes opciones: \n");
     printf(" 1. Gestion de inventario \n 2. Facturar productos\n 4. Salir del programa\n");
     scanf("%d",&opcion);
     limpiarbuffer();
@@ -125,7 +133,7 @@ int main(){
         gestion_inv();
         break;
     case 2:
-        consultaensucursal();
+        
         break;
 
     case 4:
