@@ -192,9 +192,35 @@ ficheromod = fopen("Master.txt","r");
           case 1:
 
      printf("Imprimir ");
-     
+     info_fact();
 
-                 
+     rewind(ficheromod);
+   while (fread(&temp_c, sizeof(struct Productos), 1, ficheromod) == 1) {
+     
+     if (!strcmp(temp_c.prodID, IDseeker)) {
+          limpiarbuffer(); 
+                printf("----------------------------\n");
+                printf("-----------------\n");
+                printf("----------------------------\n");
+                
+                limpiarbuffer();
+                printf("ID: %s ", temp_c.prodID);    
+                saltoLinea(); 
+                printf("Nombre: %s ", temp_c.nombre);    
+                saltoLinea(); 
+                printf("Tipo: %s ", temp_c.Tipo);    
+                saltoLinea(); 
+                printf("Precio: %2.f ", temp_c.price);    
+                saltoLinea(); 
+                printf("Descripcion: %s ", temp_c.descripcion);    
+                saltoLinea();
+     subtotal=cantextract2*temp_c.price;
+     printf("Subtotal: %2.f ", subtotal);    
+     saltoLinea(); 
+     total=subtotal*IVA;
+     printf("Total: %2.f ", total);    
+     saltoLinea();
+     limpiarbuffer(); 
   break;
 
   case 2:
@@ -202,8 +228,6 @@ ficheromod = fopen("Master.txt","r");
   }
           
      }
-
-
           fwrite(&temp_c, sizeof(struct Productos), 1, temporal);
 
      } else {
@@ -211,6 +235,9 @@ ficheromod = fopen("Master.txt","r");
      }
 
    }
+}
+
+}
 }
 
 
