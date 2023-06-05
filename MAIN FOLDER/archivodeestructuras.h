@@ -73,5 +73,5 @@ struct Cliente {
     char nombre[50];
     char direccion[100];
     int telefono[20];
-    
+    char cedula[30];
 };
