@@ -42,7 +42,6 @@ struct fact_enc {
 struct Cliente {
     char nombre[50];
     char direccion[100];
-    int telefono;
     int telefono[20];
 };
 

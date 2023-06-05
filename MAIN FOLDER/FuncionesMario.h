@@ -379,7 +379,7 @@ int versucursal(FILE *ficherosucural) {
 
 // Funcion en WIP
 
-/*
+
 
 int manejoexistenciasfact(int sucursal ,char IDdelprod[10],int cantidadretirada) {
 
@@ -437,4 +437,3 @@ int manejoexistenciasfact(int sucursal ,char IDdelprod[10],int cantidadretirada)
   return 0;
 }
 
-*/
