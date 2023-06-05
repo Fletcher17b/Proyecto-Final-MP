@@ -6,6 +6,7 @@
 #include"FuncionesMario.h"
 #include"FuncionesDavid.h"
 #include"FuncionesClaudia.h"
+#include"FuncionesArmando.h"
 #include"archivodeestructuras.h"
 #include"archivodefunciones.h"
 
@@ -16,12 +17,12 @@ cleanscreen();
 FILE *Franchyeska = NULL;
 FILE *Dat=NULL; 
 
-
+int segurodeeliminacion=0;
 int bandera =0;
 int eleccion = 0;
 while (bandera != 1) 
  {
-printf("\n Menu de inventario \n 1. Agregar Productos \n 2. Trasladar productos entre sucursales\n 3. Menu de visulisacion de Productos \n 4. Volver\n");
+printf("\n Menu de inventario \n 1. Agregar Productos\n 2. Eliminar producto \n 3. Trasladar productos entre sucursales\n 4. Menu de visulisacion de Productos \n 5. Volver\n");
 scanf("%d",&eleccion);
 switch (eleccion)
      {
@@ -31,16 +32,25 @@ case 1:
     break;
 
 case 2:
-    transferencia_interna_prods();
+    printf("Atencion: Al elimnar un producto este sera retirado de todas las sucursales\n Presione 1 si esta seguro de continuar: ");
+    scanf("%d",&segurodeeliminacion);
+    if (segurodeeliminacion ==1) {
+        removeprod(Franchyeska);
+    } 
     cleanscreen();
     break;
 
 case 3:
-    visualizarProductos(Franchyeska);
+    transferencia_interna_prods();
     cleanscreen();
     break;
 
 case 4:
+    visualizarProductos(Franchyeska);
+    cleanscreen();
+    break;
+
+case 5:
     bandera =1;
     cleanscreen();
     
@@ -54,9 +64,52 @@ default:
   }
 }
 
+void clientes() {
+
+   int opregistro;
+    cleanscreen();
+    limpiarbuffer();
+    printf("Eres nuevo usuario o ya has ingresado alguna vez?\n");
+    printf("Si eres nuevo pulsa 1, si ya te habias registrado pulsa 2, si quieres eliminar tu registro pulsa 3.\n");
+    scanf("%d", &opregistro);
+
+    switch (opregistro) {
+        case 1:
+        limpiarbuffer();
+            printf("Estamos encantados de tener un nuevo usuario, por favor registrate para que estes siempre con nosotros\n");
+            registroCliente();
+            printf("Registro de cliente completado.\n");
+            cleanscreen();
+            break;
+        case 2:
+            {
+            limpiarbuffer();
+            Buscarusuario();
+            break;
+            }
+        case 3:
+        {
+            limpiarbuffer();
+            borrarArchivo();
+            break;
+
+        }
+        default:
+            printf("Por favor, ingresa una opcion valida para que podamos continuar\n");
+            break;
+            cleanscreen();
+            }
+            
+}
+
 int main(){
   int loopexit=0;
   int opcion;
+
+    franchyeska_inicio();
+
+  clientes();
+
 
   while (loopexit!=1)
   {
