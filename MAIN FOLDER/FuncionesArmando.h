@@ -41,7 +41,7 @@ int buscarArchivo(const char* nombreArchivo) {
     FILE* file = fopen(nombreArchivo, "r");
 
     if (file == NULL) {
-        printf("El archivo no existe. Debes registrarte.\n");
+        printf("Su registro no existe\n");
         return 0; 
     } else {
         printf("El archivo existe.\n");
@@ -53,7 +53,6 @@ int buscarArchivo(const char* nombreArchivo) {
 void borrarArchivo() {
     char nombreArchivo[100];
     printf("Usted ha elegido eliminar su registro\n");
-    char nombreArchivo[100];
     printf("Ingrese su nombre de usuario (agregue .txt): ");
     scanf("%s", nombreArchivo);
     
@@ -76,14 +75,14 @@ void borrarArchivo() {
 }
 
 void Buscarusuario(){
-     char nombreArchivo[100];
+    char nombreArchivo[100];
     printf("Ingrese su nombre de usuario (agrega .txt): ");
      scanf("%s", nombreArchivo);
 
     int resultado = buscarArchivo(nombreArchivo);
 
     if (resultado == 0) {
-    printf("No estas registrado, por favor registrate a continuacion\n");
+    printf("Por favor registrate a continuacion\n");
     registroCliente();
     printf("Registro de cliente completado.\n");
     } 
