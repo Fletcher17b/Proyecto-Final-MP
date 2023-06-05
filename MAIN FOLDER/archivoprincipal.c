@@ -5,6 +5,7 @@
 #include<stdbool.h>
 #include"FuncionesMario.h"
 #include"FuncionesDavid.h"
+#include"FuncionesClaudia.h"
 #include"archivodeestructuras.h"
 #include"archivodefunciones.h"
 
@@ -71,7 +72,7 @@ int main(){
         gestion_inv();
         break;
     case 2:
-        /* code */
+        consultaensucursal();
         break;
 
     case 4:
