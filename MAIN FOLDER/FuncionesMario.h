@@ -225,6 +225,14 @@ int comparador;
 ficherodeverportipo = fopen("Master.txt","r");
 rewind(ficherodeverportipo);
 
+printf("\n ****** Ingrese el tipo de producto *****\n");
+    printf(" - Opcion 1: Collares \n");
+    printf(" - Opcion 2: Brazalete \n");
+    printf(" - Opcion 3: Anillos \n");
+    printf(" - Opcion 4: Arete    \n");
+    printf(" - Opcion 5: Cadena   \n");
+    printf(" - Opcion 6: Salir    \n");
+    printf("*******************************************\n");
 
 printf("Digite tipo\n");
 scanf("%d",&tipo);
@@ -244,6 +252,12 @@ case 3:
 case 4:
     comparador =4;
     break;
+case 5:
+    comparador =5;
+    break;
+case 6:
+    comparador =6;
+    break;
 default:
     break;
 }
@@ -254,6 +268,7 @@ default:
        printf("\n \n%s \n",estructura.prodID);
        printf("\nNombre: %s \n", estructura.nombre);
        printf("Precio: %.2f \n", estructura.price);
+       printf("Tipo: %s \n", estructura.Tipo);
        printf("Descripcion: %s \n", estructura.descripcion);
 
        printf("central: %d \n", estructura.sub.SucursalCentral);
@@ -377,9 +392,75 @@ int versucursal(FILE *ficherosucural) {
     return 0;
 }
 
+int removeprod(FILE *fileused_c) {
+
+  limpiarbuffer();
+
+ char IDseeker[10];
+ bool found = false;
+ FILE *temporal;
+ struct Productos temp_c;
+
+ fileused_c = fopen("Master.txt","r");
+ temporal = fopen("tempRE.txt","a+");
+ printf("\nIngrese ID del producto que desea borrar: \n");
+ gets(IDseeker);
+ limpiarbuffer();
+  
+  fread(&temp_c, sizeof(struct Productos),1, fileused_c);
+  while(!feof(fileused_c)) {
+
+     if(!strcmp(IDseeker, temp_c.prodID)) {
+    found = true;
+    limpiarbuffer(); 
+    int choice;
+
+      printf("\nNombre: %s \n", temp_c.prodID);  
+      printf("\nNombre: %s \n", temp_c.nombre);
+      printf("Descripcion: %s \n", temp_c.descripcion); 
+      
+      printf("Eliminar (1)? \n");
+      scanf("%d",&choice);
+
+      if (choice != 1) {
+        fwrite(&temp_c,sizeof(struct Productos),1,temporal);
+        printf("Volviendo al menu principal\n");
+
+      } else {
+        printf("Eliminado \n");
+      }
+
+
+     } else { 
+       fwrite(&temp_c, sizeof(struct Productos), 1, temporal);
+     }
+     fread(&temp_c, sizeof(struct Productos),1, fileused_c);
+  }
+
+ 
+if (found == false) {
+  printf("\n Error 404 no encontrado :( \n");
+ }
+
+ fclose(temporal);
+ fclose(fileused_c);
+
+ fileused_c = fopen("Master.txt","r");
+ temporal = fopen("tempRE.txt","a+");
+
+ fclose(temporal);
+ fclose(fileused_c);
+ int borrado;
+ borrado = remove("Master.txt");
+    if(borrado==0)
+    {
+        rename("tempRE.txt", "Master.txt");
+    }
+
+  return 0;
+}
+
 // Funcion en WIP
-
-
 
 int manejoexistenciasfact(int sucursal ,char IDdelprod[10],int cantidadretirada) {
 

@@ -24,7 +24,7 @@ struct cantdist {
 
 };
 
-struct product_template {
+struct Productos {
  char prodID[10];  
  char nombre[50];
  float priceunit;
@@ -35,8 +35,8 @@ struct product_template {
  
 };
 
-struct product_template get_info() {
-    struct product_template input;
+struct Productos get_info() {
+    struct Productos input;
       printf("\nIngrese ID del producto (maximo 10 caracteres, no se debe repetir) ");
       gets(input.prodID);
       limpiarbuffer(); 
@@ -100,14 +100,14 @@ int agregarprod(FILE *fileused_a) {
 
   limpiarbuffer();
 
-  struct product_template structtemp;
+  struct Productos structtemp;
   int guardadobien = 0;
 
-   fileused_a = fopen("master.txt","a");
+   fileused_a = fopen("Master.txt","a");
 
       limpiarbuffer();
       structtemp = get_info();
-      guardadobien = fwrite(&structtemp, sizeof(struct product_template),1, fileused_a );
+      guardadobien = fwrite(&structtemp, sizeof(struct Productos),1, fileused_a );
 
       if (guardadobien >0) {
        printf("todo chingon\n");
@@ -131,15 +131,15 @@ int modifyprods(FILE *fileused_b) {
  char IDseeker[10];
  bool found = false;
  FILE *temporal;
- struct product_template temp_b;
+ struct Productos temp_b;
  
- fileused_b = fopen("master.txt","r");
+ fileused_b = fopen("Master.txt","r");
  temporal = fopen("temporal.txt","a+");
  
  printf("Ingrese el ID del producto que desea modificar: ");
  gets(IDseeker);
 
- fread(&temp_b, sizeof(struct product_template),1, fileused_b);
+ fread(&temp_b, sizeof(struct Productos),1, fileused_b);
  while(!feof(fileused_b)) {
   if(!strcmp(IDseeker, temp_b.prodID)) {
     found = true;
@@ -177,15 +177,15 @@ int modifyprods(FILE *fileused_b) {
     limpiarbuffer();
       
     }
-    fwrite(&temp_b, sizeof(struct product_template), 1, temporal);
+    fwrite(&temp_b, sizeof(struct Productos), 1, temporal);
     printf("la neta que todo chingon");
 
     
 
   } else {
-    fwrite(&temp_b, sizeof(struct product_template), 1, temporal);
+    fwrite(&temp_b, sizeof(struct Productos), 1, temporal);
   }
-  fread(&temp_b, sizeof(struct product_template ), 1, fileused_b);
+  fread(&temp_b, sizeof(struct Productos ), 1, fileused_b);
  }
  
  if (found == false) {
@@ -195,16 +195,16 @@ int modifyprods(FILE *fileused_b) {
  fclose(temporal);
  fclose(fileused_b);
 
- fileused_b = fopen("master.txt","r");
+ fileused_b = fopen("Master.txt","r");
  temporal = fopen("temporal.txt","a+");
 
  fclose(temporal);
  fclose(fileused_b);
  int borrado;
- borrado = remove("master.txt");
+ borrado = remove("Master.txt");
     if(borrado==0)
     {
-        rename("temporal.txt", "master.txt");
+        rename("temporal.txt", "Master.txt");
     }
 
   return 0;
@@ -218,57 +218,63 @@ int removeprod(FILE *fileused_c) {
  char IDseeker[10];
  bool found = false;
  FILE *temporal;
- struct product_template temp_c;
+ struct Productos temp_c;
 
- fileused_c = fopen("master.txt","r");
- temporal = fopen("temporal.txt","a+");
- printf("\n\n");
+ fileused_c = fopen("Master.txt","r");
+ temporal = fopen("tempRE.txt","a+");
+ printf("\nIngrese ID del producto que desea borrar: \n");
  gets(IDseeker);
+ limpiarbuffer();
   
-  fread(&temp_c, sizeof(struct product_template),1, fileused_c);
+  fread(&temp_c, sizeof(struct Productos),1, fileused_c);
   while(!feof(fileused_c)) {
 
      if(!strcmp(IDseeker, temp_c.prodID)) {
     found = true;
     limpiarbuffer(); 
     int choice;
-      
+
+      printf("\nNombre: %s \n", temp_c.prodID);  
       printf("\nNombre: %s \n", temp_c.nombre);
-      printf("Precio: %.2f \n", temp_c.priceunit);
       printf("Descripcion: %s \n", temp_c.descripcion); 
       
-      printf("Eliminar? \n");
+      printf("Eliminar (1)? \n");
       scanf("%d",&choice);
 
-      if (choice == 1) {
-        printf("bye file \n");
+      if (choice != 1) {
+        fwrite(&temp_c,sizeof(struct Productos),1,temporal);
+        printf("Volviendo al menu principal\n");
 
       } else {
-        fwrite(&temp_c,sizeof(struct product_template),1,temporal);
-        printf("back to main\n");
+        printf("Eliminado \n");
       }
 
 
      } else { 
-       fwrite(&temp_c, sizeof(struct product_template), 1, temporal);
+       fwrite(&temp_c, sizeof(struct Productos), 1, temporal);
      }
-     fread(&temp_c, sizeof(struct product_template),1, fileused_c);
+     fread(&temp_c, sizeof(struct Productos),1, fileused_c);
   }
 
  
 if (found == false) {
-  printf("\n se mamo usted \n");
+  printf("\n Error 404 no encontrado :( \n");
  }
 
  fclose(temporal);
  fclose(fileused_c);
+
+ fileused_c = fopen("Master.txt","r");
+ temporal = fopen("tempRE.txt","a+");
+
+ fclose(temporal);
+ fclose(fileused_c);
  int borrado;
- borrado = remove("master.txt");
+ borrado = remove("Master.txt");
     if(borrado==0)
     {
-        rename("temporal.txt", "master.txt");
+        rename("tempRE.txt", "Master.txt");
     }
-
 
   return 0;
 }
@@ -279,7 +285,7 @@ int factura(FILE *fileused_d) {
   cleanscreen();
 
  FILE *temporal;
- struct product_template temp_c;
+ struct Productos temp_c;
 
  FILE *factura;
 
@@ -293,7 +299,7 @@ strcat(queguey,factsting);
 
  factura = fopen(queguey,"w");
  
- fileused_d = fopen("master.txt","r");
+ fileused_d = fopen("Master.txt","r");
  temporal = fopen("temporal.txt","a+");
 
 
@@ -309,7 +315,7 @@ strcat(queguey,factsting);
   //  int valuetochange = 0; 
     int scanfvalidation;
  
-  fread(&temp_c, sizeof(struct product_template),1, fileused_d);
+  fread(&temp_c, sizeof(struct Productos),1, fileused_d);
 
   printf("Bienvenido al menu de facturacion \n");
 
@@ -434,23 +440,23 @@ while(!feof(fileused_d)) {
     printf("3: %d \n", temp_c.sub.cantidad_en_sucursal_3);
     printf("4: %d \n", temp_c.sub.cantidad_en_sucursal_4);
 
-    fwrite(&temp_c, sizeof(struct product_template), 1, temporal);  
+    fwrite(&temp_c, sizeof(struct Productos), 1, temporal);  
 
    
   
   } else {
-    fwrite(&temp_c, sizeof(struct product_template), 1, temporal);
+    fwrite(&temp_c, sizeof(struct Productos), 1, temporal);
   }
-  fread(&temp_c, sizeof(struct product_template ), 1, fileused_d);
+  fread(&temp_c, sizeof(struct Productos ), 1, fileused_d);
  }
   
  fclose(temporal);
  fclose(fileused_d);
  int borrado;
- borrado = remove("master.txt");
+ borrado = remove("Master.txt");
     if(borrado==0)
     {
-        rename("temporal.txt", "master.txt");
+        rename("temporal.txt", "Master.txt");
     }
   return 0;
 }
@@ -459,12 +465,12 @@ int comprob(FILE *fileused_0) {
   limpiarbuffer();
   cleanscreen();
 
-  struct product_template temp_0;
+  struct Productos temp_0;
 
   printf("\n comprob \n");
 
-  fileused_0 = fopen("master.txt","r");
-  fread(&temp_0, sizeof(struct product_template),1, fileused_0);
+  fileused_0 = fopen("Master.txt","r");
+  fread(&temp_0, sizeof(struct Productos),1, fileused_0);
   char IDseeker[10];
   int exit;
   gets(IDseeker);
@@ -484,11 +490,11 @@ int comprob(FILE *fileused_0) {
     printf("4: %d \n", temp_0.sub.cantidad_en_sucursal_4);
     exit =1 ;
   } 
-  fread(&temp_0, sizeof(struct product_template),1, fileused_0);
+  fread(&temp_0, sizeof(struct Productos),1, fileused_0);
       
   } 
 
-
+  fclose(fileused_0);
   return 0;
 }
 

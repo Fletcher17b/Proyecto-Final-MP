@@ -336,11 +336,6 @@ int retirar_producto(FILE *fileProducto, struct Productos prod)
     print_factura(fileFactura);
 
    }
-   
-
-
-
-
 
 
 }
