@@ -97,7 +97,11 @@ void Proveedores(FILE *Datos, struct Productos pr)
 
             printf("ID: %s", pr.prov.provID); 
                 saltoLinea();
+<<<<<<< Updated upstream
                 
+=======
+
+>>>>>>> Stashed changes
             printf("Nombre del proovedor: %s", pr.prov.NameProv);    
             saltoLinea(); 
             limpiarbuffer();

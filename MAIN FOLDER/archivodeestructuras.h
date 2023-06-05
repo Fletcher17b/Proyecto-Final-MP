@@ -9,25 +9,29 @@ struct cantdist {
 
 };
 
-struct proveedoresFich {
+/*struct proveedoresFich {
   
     char NameProv[60];
     char proveedorID[30];
-    char productprovID[30];
+    char productop[30];
     int aSucursalCentral;
     int asucursal_1;
     int asucursal_2;
     int asucursal_3;
     int asucursal_4;
 
-};
+};*/
 
 struct proveedores //David
 {
 
     char NameProv[60];
     char productop[30];
+<<<<<<< Updated upstream
     char provID[30];
+=======
+    char provID[20];
+>>>>>>> Stashed changes
 
 };
 

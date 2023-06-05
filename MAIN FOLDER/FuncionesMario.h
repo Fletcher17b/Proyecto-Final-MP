@@ -221,6 +221,7 @@ int verportipo(FILE *ficherodeverportipo) {
 struct Productos estructura;
 int tipo;
 int comparador;
+int found =0;
     
 ficherodeverportipo = fopen("Master.txt","r");
 rewind(ficherodeverportipo);
@@ -265,6 +266,7 @@ default:
  while (fread(&estructura, sizeof(struct Productos), 1, ficherodeverportipo) == 1) {
 
    if (estructura.tipo==comparador) {
+    int found =1;
        printf("\n \n%s \n",estructura.prodID);
        printf("\nNombre: %s \n", estructura.nombre);
        printf("Precio: %.2f \n", estructura.price);
@@ -279,6 +281,7 @@ default:
    }
     
  }
+
     fclose(ficherodeverportipo);
     return 0;
 }

@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "stdbool.h": "c",
+        "archivodefunciones.h": "c",
+        "funcionesmario.h": "c"
+    }
+}
